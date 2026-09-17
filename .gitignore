@@ -63,3 +63,6 @@ ai-servers/data/ppt-quality-qa/
 
 # Workspace outputs (agent scratch)
 output/
+
+# Visual Studio IDE cache
+.vs/
