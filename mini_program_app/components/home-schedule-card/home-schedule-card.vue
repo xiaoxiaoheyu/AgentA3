@@ -225,8 +225,11 @@ export default {
 	margin-top: 22rpx;
 	padding: 24rpx 24rpx 24rpx;
 	border-radius: 30rpx;
-	background: #ffffff;
-	box-shadow: 0 12rpx 28rpx rgba(188, 194, 203, 0.12);
+	background:
+		radial-gradient(circle at 92% 8%, rgba(255, 226, 105, 0.18), transparent 24%),
+		linear-gradient(180deg, #ffffff, #fbfefc);
+	border: 1rpx solid rgba(207, 227, 217, 0.94);
+	box-shadow: 0 14rpx 32rpx rgba(36, 87, 70, 0.13);
 }
 
 .home-schedule-top {
@@ -256,7 +259,7 @@ export default {
 	bottom: 2rpx;
 	height: 5rpx;
 	border-radius: 999rpx;
-	background: #5f7dff;
+	background: linear-gradient(90deg, #24a7e5, #6477ff);
 }
 
 .home-day-text {
@@ -266,7 +269,7 @@ export default {
 }
 
 .home-day-item.active .home-day-text {
-	color: #5f7dff;
+	color: #526fff;
 }
 
 .home-schedule-board {

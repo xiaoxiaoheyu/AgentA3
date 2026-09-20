@@ -19,49 +19,49 @@
 
 		<view class="main-content">
 			<view class="home-quick-entry">
-				<view class="home-quick-entry__item" @click="navigate('/subpackage_community/communityActivity/communityActivity')">
-					<view class="home-quick-entry__icon-wrapper">
-						<image class="home-quick-entry__icon home-quick-entry__icon--xlarge" src="/static/APPIcon/tabbar/compass.png" mode="aspectFit" />
-					</view>
-					<view class="home-quick-entry__card">
-						<text class="home-quick-entry__text">活</text>
-					</view>
+				<view
+					class="home-quick-entry__item home-quick-entry__item--activity"
+					aria-label="活动"
+					@click="navigate('/subpackage_community/communityActivity/communityActivity')"
+				>
+					<image class="home-quick-entry__icon" src="/static/index/quick-entry/activity.png" mode="aspectFit" />
+					<text class="home-quick-entry__text">活动</text>
 				</view>
 
-				<view class="home-quick-entry__item" @click="navigate('/subpackage_facility/restaurantDetail/restaurantDetail?id=3')">
-					<view class="home-quick-entry__icon-wrapper">
-						<image class="home-quick-entry__icon home-quick-entry__icon--medium" src="/static/APPIcon/tabbar/venue.png" mode="aspectFit" />
-					</view>
-					<view class="home-quick-entry__card">
-						<text class="home-quick-entry__text">食</text>
-					</view>
+				<view
+					class="home-quick-entry__item home-quick-entry__item--food"
+					aria-label="美食"
+					@click="navigate('/subpackage_facility/restaurantDetail/restaurantDetail?id=3')"
+				>
+					<image class="home-quick-entry__icon" src="/static/index/quick-entry/food.png" mode="aspectFit" />
+					<text class="home-quick-entry__text">美食</text>
 				</view>
 
-				<view class="home-quick-entry__item" @click="navigate('/subpackage_lostfound/marketplaceHome/marketplaceHome')">
-					<view class="home-quick-entry__icon-wrapper">
-						<image class="home-quick-entry__icon" src="/static/APPIcon/tabbar/clipboard.png" mode="aspectFit" />
-					</view>
-					<view class="home-quick-entry__card">
-						<text class="home-quick-entry__text">失</text>
-					</view>
+				<view
+					class="home-quick-entry__item home-quick-entry__item--trade"
+					aria-label="交易"
+					@click="navigate('/subpackage_lostfound/marketplaceHome/marketplaceHome')"
+				>
+					<image class="home-quick-entry__icon" src="/static/index/quick-entry/trade.png" mode="aspectFit" />
+					<text class="home-quick-entry__text">交易</text>
 				</view>
 
-				<view class="home-quick-entry__item" @click="navigate('/subpackage_forum/forumList/forumList', 'reLaunch')">
-					<view class="home-quick-entry__icon-wrapper">
-						<image class="home-quick-entry__icon home-quick-entry__icon--small" src="/static/APPIcon/tabbar/message-circle.png" mode="aspectFit" />
-					</view>
-					<view class="home-quick-entry__card">
-						<text class="home-quick-entry__text">坛</text>
-					</view>
+				<view
+					class="home-quick-entry__item home-quick-entry__item--forum"
+					aria-label="论坛"
+					@click="navigate('/subpackage_forum/forumList/forumList', 'reLaunch')"
+				>
+					<image class="home-quick-entry__icon" src="/static/index/quick-entry/forum.png" mode="aspectFit" />
+					<text class="home-quick-entry__text">论坛</text>
 				</view>
 
-				<view class="home-quick-entry__item" @click="navigate('/subpackage_promotion/promotion/promotion')">
-					<view class="home-quick-entry__icon-wrapper">
-						<image class="home-quick-entry__icon" src="/static/APPIcon/tabbar/award.png" mode="aspectFit" />
-					</view>
-					<view class="home-quick-entry__card">
-						<text class="home-quick-entry__text">惠</text>
-					</view>
+				<view
+					class="home-quick-entry__item home-quick-entry__item--promotion"
+					aria-label="优惠"
+					@click="navigate('/subpackage_promotion/promotion/promotion')"
+				>
+					<image class="home-quick-entry__icon" src="/static/index/quick-entry/promotion.png" mode="aspectFit" />
+					<text class="home-quick-entry__text">优惠</text>
 				</view>
 			</view>
 
@@ -123,7 +123,10 @@
 
 						<view class="campus-ai-action campus-ai-action--create" @click.stop="navigate('/subpackage_ai/aiCreate/aiCreate')">
 							<view class="campus-ai-action-icon campus-ai-action-icon--create">
-								<text class="campus-ai-spark">✦</text>
+								<view class="campus-ai-pen">
+									<view class="campus-ai-pen__body"></view>
+									<view class="campus-ai-pen__tip"></view>
+								</view>
 							</view>
 							<view class="campus-ai-action-copy">
 								<text class="campus-ai-action-title">灵感创作</text>
@@ -170,24 +173,24 @@ export default {
 
 			heroSlides: [
 				{
-					title: 'slide-1',
-					image: '/static/index/1.png',
+					title: '节约用水',
+					image: '/static/index/hero-water-conservation.jpg',
 					theme: 'blue'
 				},
 				{
-					title: 'slide-2',
-					image: '/static/index/2.jpg',
-					theme: 'violet'
-				},
-				{
-					title: 'slide-3',
-					image: '/static/index/3.jpg',
-					theme: 'green'
-				},
-				{
-					title: 'slide-4',
-					image: '/static/index/4.jpg',
+					title: '珍惜粮食',
+					image: '/static/index/hero-food-day.jpg',
 					theme: 'orange'
+				},
+				{
+					title: '烈士纪念日',
+					image: '/static/index/hero-martyrs-day.jpg',
+					theme: 'red'
+				},
+				{
+					title: '校园建筑',
+					image: '/static/index/hero-campus-building.jpg',
+					theme: 'green'
 				}
 			]
 		}
@@ -261,7 +264,10 @@ export default {
 <style lang="scss">
 .home-page {
 	min-height: 100vh;
-	background: #f8f6ef;
+	background:
+		radial-gradient(circle at 6% 18%, rgba(255, 220, 88, 0.20), transparent 24%),
+		radial-gradient(circle at 96% 38%, rgba(56, 190, 139, 0.18), transparent 26%),
+		linear-gradient(180deg, #e8f7ed 0%, #f8fcf9 58%, #edf8f1 100%);
 	padding-bottom: 240rpx;
 }
 
@@ -310,90 +316,80 @@ export default {
 }
 
 .home-quick-entry {
-	display: flex;
-	justify-content: space-between;
-	padding: 0 24rpx;
-	margin-top: 24rpx;
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 12rpx;
+	width: 100%;
+	margin-top: 46rpx;
 }
 
 .home-quick-entry__item {
 	position: relative;
-	width: 120rpx;
-	height: 150rpx;
+	min-width: 0;
+	height: 142rpx;
+	overflow: hidden;
+	border-radius: 24rpx;
+	border: 2rpx solid rgba(255, 255, 255, 0.96);
+	background: linear-gradient(155deg, #ffffff, rgba(247, 255, 250, 0.96));
+	box-shadow: 0 10rpx 22rpx rgba(28, 101, 77, 0.14);
 	display: flex;
-	justify-content: center;
-	align-items: flex-end;
-}
-
-.home-quick-entry__icon-wrapper {
-	position: absolute;
-	left: 50%;
-	top: -32rpx;
-	transform: translateX(-50%);
-	z-index: 2;
-
-	width: 200rpx;
-	height: 200rpx;
-
-	display: flex;
-	justify-content: center;
+	flex-direction: column;
 	align-items: center;
-	pointer-events: none;
+	justify-content: center;
+	box-sizing: border-box;
+	transition: transform 0.16s ease, box-shadow 0.16s ease;
 }
 
-.home-quick-entry__card {
-	position: relative;
-	width: 100%;
-	height: 96rpx;
-	background: #ffffff;
-	border-radius: 28rpx;
-	box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.06);
-	display: flex;
-	justify-content: center;
-	align-items: flex-end;
-	padding-bottom: 16rpx;
-	box-sizing: border-box;
-	z-index: 1;
+.home-quick-entry__item:active {
+	transform: translateY(2rpx) scale(0.98);
+	box-shadow: 0 5rpx 12rpx rgba(28, 101, 77, 0.12);
 }
 
 .home-quick-entry__icon {
-	width: 200rpx;
-	height: 200rpx;
+	width: 98rpx;
+	height: 98rpx;
 	display: block;
-	object-fit: contain;
-}
-
-.home-quick-entry__icon--xlarge {
-	width: 240rpx;
-	height: 240rpx;
-}
-
-.home-quick-entry__icon--medium {
-	width: 175rpx;
-	height: 175rpx;
-}
-
-.home-quick-entry__icon--small {
-	width: 160rpx;
-	height: 160rpx;
+	pointer-events: none;
 }
 
 .home-quick-entry__text {
-	font-size: 24rpx;
-	color: #4f7f8f;
-	font-weight: 600;
+	margin-top: -7rpx;
+	font-size: 22rpx;
+	font-weight: 800;
 	line-height: 1;
+	color: #176a57;
+}
+
+.home-quick-entry__item--food .home-quick-entry__text,
+.home-quick-entry__item--promotion .home-quick-entry__text {
+	color: #9a7007;
+}
+
+.home-quick-entry__item--forum .home-quick-entry__text {
+	color: #25739e;
 }
 
 .headline-card {
-	margin-top: 34rpx;
-	background: #FFFFFF;
-	border-radius: 16rpx;
+	position: relative;
+	margin-top: 26rpx;
+	background: linear-gradient(90deg, #ffffff, rgba(251, 255, 252, 0.96));
+	border: 1rpx solid rgba(211, 231, 221, 0.92);
+	border-radius: 22rpx;
 	padding: 20rpx 24rpx;
 	display: flex;
 	align-items: center;
-	box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+	box-shadow: 0 12rpx 25rpx rgba(31, 91, 71, 0.11);
 	overflow: hidden;
+}
+
+.headline-card::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 6rpx;
+	background: linear-gradient(180deg, #0aa87a, #24a7e5, #f1bd3c);
 }
 
 /* 左侧标签区域 */
@@ -481,8 +477,8 @@ export default {
 	position: relative;
 	box-sizing: border-box;
 	border: 1rpx solid rgba(226, 235, 239, 0.92);
-	background: #ffffff;
-	box-shadow: 0 18rpx 46rpx rgba(62, 83, 92, 0.10);
+	background: linear-gradient(145deg, rgba(244, 255, 249, 0.98), #ffffff 52%, rgba(241, 247, 255, 0.98));
+	box-shadow: 0 18rpx 46rpx rgba(31, 98, 75, 0.14);
 }
 
 .campus-ai-fold-card {
@@ -502,8 +498,8 @@ export default {
 	right: 0;
 	bottom: 0;
 	height: 48rpx;
-	background: linear-gradient(90deg, rgba(232, 255, 240, 0.72), rgba(236, 244, 255, 0.78));
-	opacity: 0.58;
+	background: linear-gradient(90deg, rgba(216, 251, 230, 0.88), rgba(226, 240, 255, 0.86));
+	opacity: 0.7;
 	pointer-events: none;
 }
 
@@ -525,7 +521,7 @@ export default {
 	width: 58rpx;
 	height: 58rpx;
 	border-radius: 20rpx;
-	background: linear-gradient(135deg, #eefdf4, #edf5ff);
+	background: linear-gradient(135deg, #dff9e8, #e6f1ff);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -632,6 +628,7 @@ export default {
 }
 
 .campus-ai-action {
+	position: relative;
 	min-width: 0;
 	min-height: 122rpx;
 	padding: 22rpx 20rpx;
@@ -640,7 +637,23 @@ export default {
 	align-items: center;
 	box-sizing: border-box;
 	border: 1rpx solid rgba(228, 238, 243, 0.92);
-	box-shadow: 0 12rpx 28rpx rgba(73, 96, 106, 0.08);
+	box-shadow: 0 12rpx 28rpx rgba(43, 99, 78, 0.10);
+	overflow: hidden;
+}
+
+.campus-ai-action::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 22rpx;
+	bottom: 22rpx;
+	width: 5rpx;
+	border-radius: 999rpx;
+	background: #20b46b;
+}
+
+.campus-ai-action--create::before {
+	background: linear-gradient(180deg, #3b82d9, #8669d7);
 }
 
 .campus-ai-action--meeting {
@@ -666,7 +679,7 @@ export default {
 }
 
 .campus-ai-action-icon--create {
-	background: #e4efff;
+	background: linear-gradient(145deg, #e4efff, #f1eafe);
 }
 
 .campus-ai-mic {
@@ -724,11 +737,33 @@ export default {
 	transform: translateX(-50%);
 }
 
-.campus-ai-spark {
-	color: #2d7df4;
-	font-size: 34rpx;
-	font-weight: 900;
-	line-height: 1;
+.campus-ai-pen {
+	position: relative;
+	width: 38rpx;
+	height: 38rpx;
+	transform: rotate(-42deg);
+}
+
+.campus-ai-pen__body {
+	position: absolute;
+	left: 13rpx;
+	top: 2rpx;
+	width: 14rpx;
+	height: 27rpx;
+	border-radius: 7rpx 7rpx 3rpx 3rpx;
+	background: linear-gradient(180deg, #8669d7, #3b82d9);
+	box-shadow: inset 0 0 0 2rpx rgba(255, 255, 255, 0.4);
+}
+
+.campus-ai-pen__tip {
+	position: absolute;
+	left: 14rpx;
+	top: 27rpx;
+	width: 0;
+	height: 0;
+	border-left: 6rpx solid transparent;
+	border-right: 6rpx solid transparent;
+	border-top: 10rpx solid #f2b94b;
 }
 
 .campus-ai-action-copy {

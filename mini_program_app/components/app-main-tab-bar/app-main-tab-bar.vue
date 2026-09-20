@@ -5,7 +5,7 @@
         <image
           class="label_1"
           referrerpolicy="no-referrer"
-          :src="current === 'index' ? '/static/APPIcon/tabbar/tabbar_home_select.png' : '/static/APPIcon/tabbar/tabbar_home_notselected.png'"
+          src="/static/tabbar/watercolor/home.png"
         />
         <text class="text-group_1" :class="{ active: current === 'index' }">首页</text>
       </view>
@@ -14,15 +14,16 @@
           <image
             class="image_1"
             referrerpolicy="no-referrer"
-            src="/static/APPIcon/tabbar/tabbar_code.png"
+            src="/static/tabbar/watercolor/map.png"
           />
+          <text class="text-group_2" :class="{ active: current === 'map' }">校园地图</text>
         </view>
       </view>
       <view class="image-text_3 flex-col" @click="onTab('mine')">
         <image
           class="label_2"
           referrerpolicy="no-referrer"
-          :src="current === 'mine' ? '/static/APPIcon/tabbar/tabbar_me_select.png' : '/static/APPIcon/tabbar/tabbar_me_notselected.png'"
+          src="/static/tabbar/watercolor/mine.png"
         />
         <text class="text-group_3" :class="{ active: current === 'mine' }">我的</text>
       </view>
@@ -78,7 +79,7 @@ export default {
   left: 0;
   right: 0;
   width: 750rpx;
-  height: calc(262rpx + env(safe-area-inset-bottom));
+	height: calc(246rpx + env(safe-area-inset-bottom));
   background: transparent;
   z-index: 999;
   padding-bottom: env(safe-area-inset-bottom);
@@ -89,9 +90,10 @@ export default {
   position: absolute;
   left: 0;
   right: 0;
-  top: 122rpx;
+	top: 104rpx;
   bottom: 0;
-  background: #ffffff;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.99), #fbfefc);
+	box-shadow: 0 -16rpx 38rpx rgba(26, 85, 67, 0.14);
   z-index: 0;
 }
 
@@ -99,21 +101,20 @@ export default {
   position: relative;
   z-index: 1;
   width: 750rpx;
-  background: url('/static/APPIcon/tabbar/tabbar_bg.png') 0rpx 0rpx no-repeat;
-  background-size: 750rpx 183rpx;
-  padding: 10rpx 101rpx 24rpx 101rpx;
+	background: transparent;
+	padding: 6rpx 86rpx 20rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 .image-text_1 {
-  margin-top: 62rpx;
+	margin-top: 68rpx;
 }
 
 .label_1 {
-  width: 80rpx;
-  height: 80rpx;
+	width: 88rpx;
+	height: 88rpx;
   align-self: center;
 }
 
@@ -124,50 +125,54 @@ export default {
   text-align: center;
   white-space: nowrap;
   line-height: 32rpx;
-  margin-top: 9rpx;
+	margin-top: -8rpx;
 }
 
 .text-group_1.active {
-  color: rgba(0, 118, 255, 1);
-  font-weight: 500;
+	color: #0783f5;
+	font-weight: 800;
 }
 
 .group_2 {
-  border-radius: 50%;
-  padding: 0;
+	padding: 0;
 }
 
 .image-text_2 {
+	align-items: center;
+	margin-top: -18rpx;
 }
 
 .image_1 {
-  width: 160rpx;
-  height: 160rpx;
-  margin-bottom: 20rpx;
-  margin-left: 10rpx;
+	width: 168rpx;
+	height: 168rpx;
+	filter: drop-shadow(0 12rpx 20rpx rgba(197, 157, 33, 0.22));
 }
 
 .text-group_2 {
   overflow-wrap: break-word;
-  color: rgba(255, 255, 255, 1);
+	color: #16856b;
   font-size: 24rpx;
   font-family: PingFangSC-Medium;
   font-weight: 500;
   text-align: center;
   white-space: nowrap;
-  line-height: 40rpx;
+	line-height: 30rpx;
   align-self: center;
-  margin-top: 12rpx;
+	margin-top: -25rpx;
+}
+
+.text-group_2.active {
+	color: #0783f5;
 }
 
 .image-text_3 {
-  margin-top: 62rpx;
+	margin-top: 68rpx;
 }
 
 .label_2 {
-  width: 80rpx;
-  height: 80rpx;
-  margin-left: 4rpx;
+	width: 88rpx;
+	height: 88rpx;
+	margin-left: 0;
 }
 
 .text-group_3 {
@@ -179,11 +184,12 @@ export default {
   text-align: center;
   white-space: nowrap;
   line-height: 32rpx;
-  margin-top: 10rpx;
+	margin-top: -8rpx;
 }
 
 .text-group_3.active {
-  color: rgba(0, 118, 255, 1);
+	color: #0783f5;
+	font-weight: 800;
 }
 
 .image_2 {

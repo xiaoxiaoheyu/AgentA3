@@ -221,10 +221,12 @@
 			@touchend.stop="onTouchEnd"
 			@mousedown.stop="onMouseDown"
 		>
-			<view class="ai-assistant-fab__halo"></view>
-			<view class="ai-assistant-fab__core">
-				<text class="ai-assistant-fab__label">AI</text>
-			</view>
+			<image
+				class="ai-assistant-fab__mascot"
+				src="/static/ai/mascot-yaya.png"
+				mode="aspectFit"
+			/>
+			<text class="ai-assistant-fab__name">问芽芽</text>
 		</view>
 	</view>
 </template>
@@ -300,7 +302,7 @@ export default {
 			scrollAnchor: 'ai-message-anchor',
 			screenWidth: 375,
 			screenHeight: 667,
-			fabSize: 56,
+			fabSize: 70,
 			fabBottomSpacing: 110,
 			defaultFabLeft: 0,
 			defaultFabTop: 0,
@@ -399,7 +401,7 @@ export default {
 			const systemInfo = uni.getSystemInfoSync()
 			this.screenWidth = systemInfo.windowWidth || 375
 			this.screenHeight = systemInfo.windowHeight || 667
-			this.fabSize = 56
+			this.fabSize = 70
 			const safeAreaBottomInset = systemInfo.safeArea
 				? Math.max(0, this.screenHeight - systemInfo.safeArea.bottom)
 				: 0
@@ -1302,61 +1304,46 @@ export default {
 
 .ai-assistant-fab {
 	position: fixed;
-	width: 112rpx;
-	height: 112rpx;
+	width: 140rpx;
+	height: 158rpx;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
 	transition: transform 0.22s ease, opacity 0.22s ease;
+	filter: drop-shadow(0 12rpx 16rpx rgba(20, 92, 73, 0.20));
 }
 
 .ai-assistant-fab--collapsed.ai-assistant-fab--right {
-	transform: translateX(52rpx);
+	transform: translateX(62rpx);
 }
 
 .ai-assistant-fab--collapsed.ai-assistant-fab--left {
-	transform: translateX(-52rpx);
+	transform: translateX(-62rpx);
 }
 
-.ai-assistant-fab--collapsed .ai-assistant-fab__halo {
-	opacity: 0.9;
-	box-shadow: 0 14rpx 30rpx rgba(52, 120, 246, 0.2);
+.ai-assistant-fab--collapsed .ai-assistant-fab__name {
+	opacity: 0;
 }
 
-.ai-assistant-fab--collapsed .ai-assistant-fab__core {
-	background: rgba(255, 255, 255, 0.22);
+.ai-assistant-fab__mascot {
+	width: 130rpx;
+	height: 130rpx;
+	display: block;
 }
 
-.ai-assistant-fab__halo {
-	position: absolute;
-	inset: 0;
-	border-radius: 50%;
-	background:
-		radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0) 38%),
-		linear-gradient(145deg, #3478f6, #5a9bff 58%, #8fd3ff);
-	box-shadow: 0 18rpx 40rpx rgba(52, 120, 246, 0.28);
-	animation: ai-fab-pulse 2.8s ease-in-out infinite;
-}
-
-.ai-assistant-fab__core {
-	position: relative;
-	width: 84rpx;
-	height: 84rpx;
-	border-radius: 50%;
-	background: rgba(255, 255, 255, 0.18);
-	backdrop-filter: blur(12px);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border: 2rpx solid rgba(255, 255, 255, 0.32);
-}
-
-.ai-assistant-fab__label {
-	font-size: 32rpx;
-	font-weight: 700;
+.ai-assistant-fab__name {
+	margin-top: -22rpx;
+	padding: 6rpx 18rpx;
+	border-radius: 999rpx;
+	background: #16856b;
 	color: #ffffff;
-	letter-spacing: 2rpx;
+	font-size: 20rpx;
+	font-weight: 900;
+	line-height: 1;
+	white-space: nowrap;
+	transition: opacity 0.2s ease;
 }
 
 .ai-assistant-panel {
