@@ -55,16 +55,32 @@ function Import-DotEnv {
 
 Import-DotEnv $RootEnvFilePath
 
-if (-not $env:JAVA_HOME) {
-    $env:JAVA_HOME = "D:\DevTools\Java\temurin-21"
+if ($env:JAVA_HOME -and (Test-Path (Join-Path $env:JAVA_HOME "bin\java.exe"))) {
+    $env:Path = "$(Join-Path $env:JAVA_HOME 'bin');$env:Path"
 }
-if (-not $env:MAVEN_HOME) {
-    $env:MAVEN_HOME = "D:\DevTools\Maven\apache-maven-3.9.16\maven-mvnd-1.0.6-windows-amd64\mvn"
+
+$MavenCommand = $null
+if ($env:MAVEN_HOME) {
+    $mavenFromHome = Join-Path $env:MAVEN_HOME "bin\mvn.cmd"
+    if (Test-Path $mavenFromHome) {
+        $MavenCommand = $mavenFromHome
+    }
 }
-$env:Path = "$env:JAVA_HOME\bin;$env:MAVEN_HOME\bin;D:\DevTools\Docker\resources\bin;$env:Path"
+if (-not $MavenCommand) {
+    $mavenOnPath = Get-Command mvn.cmd -ErrorAction SilentlyContinue
+    if (-not $mavenOnPath) {
+        $mavenOnPath = Get-Command mvn -ErrorAction SilentlyContinue
+    }
+    if ($mavenOnPath) {
+        $MavenCommand = $mavenOnPath.Source
+    }
+}
+if (-not $MavenCommand) {
+    throw "Maven was not found. Set MAVEN_HOME to a valid Maven installation or add mvn to PATH."
+}
 
 if (-not $env:SPRING_DATASOURCE_URL) {
-    $env:SPRING_DATASOURCE_URL = "jdbc:mysql://localhost:3307/smart-campus?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"
+    $env:SPRING_DATASOURCE_URL = "jdbc:mysql://localhost:3306/smart-campus?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai"
 }
 if (-not $env:SPRING_DATASOURCE_USERNAME) {
     $env:SPRING_DATASOURCE_USERNAME = "root"
@@ -80,5 +96,5 @@ if (-not $env:SERVER_ADDRESS) {
 }
 
 Set-Location $Backend
-& "$env:MAVEN_HOME\bin\mvn.cmd" spring-boot:run
+& $MavenCommand spring-boot:run
 exit $LASTEXITCODE
