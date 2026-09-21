@@ -1,5 +1,21 @@
 <template>
 	<view class="home-schedule-card">
+		<view class="home-schedule-footer" @click="goToSchedule">
+			<view class="home-schedule-footer-text">
+				<text class="home-schedule-week">课表 {{ currentDayLabel }}. 第{{ currentWeek }}周</text>
+				<text class="home-schedule-desc">{{ currentDateText }}</text>
+			</view>
+			<view class="home-schedule-switch" @click.stop>
+				<view class="home-schedule-switch-btn" :class="{ disabled: currentPeriodPage <= 0 }" @click.stop="switchPeriodPage(-1)">
+					<text class="home-schedule-switch-icon">⌃</text>
+				</view>
+				<view class="home-schedule-switch-divider"></view>
+				<view class="home-schedule-switch-btn" :class="{ disabled: currentPeriodPage >= periodWindows.length - 1 }" @click.stop="switchPeriodPage(1)">
+					<text class="home-schedule-switch-icon home-schedule-switch-icon--down">⌃</text>
+				</view>
+			</view>
+		</view>
+
 		<view class="home-schedule-top">
 			<view class="home-day-spacer"></view>
 			<view
@@ -43,22 +59,6 @@
 					<view class="home-course-content">
 						<text class="home-course-title">{{ course.name }}@{{ course.location }}</text>
 					</view>
-				</view>
-			</view>
-		</view>
-
-		<view class="home-schedule-footer" @click="goToSchedule">
-			<view class="home-schedule-footer-text">
-				<text class="home-schedule-week">课表 {{ currentDayLabel }}. 第{{ currentWeek }}周</text>
-				<text class="home-schedule-desc">{{ currentDateText }}</text>
-			</view>
-			<view class="home-schedule-switch" @click.stop>
-				<view class="home-schedule-switch-btn" :class="{ disabled: currentPeriodPage <= 0 }" @click.stop="switchPeriodPage(-1)">
-					<text class="home-schedule-switch-icon">⌃</text>
-				</view>
-				<view class="home-schedule-switch-divider"></view>
-				<view class="home-schedule-switch-btn" :class="{ disabled: currentPeriodPage >= periodWindows.length - 1 }" @click.stop="switchPeriodPage(1)">
-					<text class="home-schedule-switch-icon home-schedule-switch-icon--down">⌃</text>
 				</view>
 			</view>
 		</view>
@@ -396,8 +396,8 @@ export default {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin-top: 18rpx;
-	padding: 0 10rpx 2rpx;
+	margin-bottom: 18rpx;
+	padding: 2rpx 10rpx 0;
 }
 
 .home-schedule-footer-text {
