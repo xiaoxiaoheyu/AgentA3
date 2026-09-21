@@ -210,8 +210,8 @@ export default {
 .nav-bar {
   position: relative;
   padding: 0 28rpx;
-  background: linear-gradient(180deg, #dff0ff 0%, #eaf5ff 100%);
-  border-bottom-color: rgba(177, 208, 235, 0.55);
+  background: linear-gradient(180deg, #e8f7ed 0%, #edf8f1 100%);
+  border-bottom-color: rgba(184, 222, 197, 0.55);
 }
 
 .nav-bar--fixed {

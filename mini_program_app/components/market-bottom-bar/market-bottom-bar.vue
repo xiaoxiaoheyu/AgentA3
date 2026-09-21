@@ -174,7 +174,7 @@ export default {
 }
 
 .bar-item.active {
-  color: #3D7EFF;
+  color: #16856B;
   font-weight: 700;
 }
 
@@ -186,7 +186,7 @@ export default {
   width: 34rpx;
   height: 7rpx;
   border-radius: 999rpx;
-  background: #3D7EFF;
+  background: #16856B;
   transform: translateX(-50%);
   pointer-events: none;
 }
@@ -206,7 +206,7 @@ export default {
 .bar-item.active .bar-icon-img {
   opacity: 1;
   transform: translateY(-2rpx);
-  filter: drop-shadow(0 8rpx 10rpx rgba(61, 126, 255, 0.2));
+  filter: drop-shadow(0 8rpx 10rpx rgba(22, 133, 107, 0.20));
 }
 
 .bar-icon-img {
@@ -286,17 +286,17 @@ export default {
   width: 124rpx;
   height: 124rpx;
   border-radius: 50%;
-  background: linear-gradient(145deg, rgba(226, 242, 255, 0.82), rgba(124, 181, 232, 0.48));
+  background: linear-gradient(145deg, rgba(225, 247, 234, 0.88), rgba(78, 190, 139, 0.58));
   border: 2rpx solid rgba(255, 255, 255, 0.82);
   color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow:
-    0 24rpx 46rpx rgba(92, 122, 153, 0.28),
-    0 10rpx 24rpx rgba(111, 152, 208, 0.26),
+    0 24rpx 46rpx rgba(22, 133, 107, 0.24),
+    0 10rpx 24rpx rgba(32, 180, 107, 0.22),
     inset 0 3rpx 0 rgba(255, 255, 255, 0.86),
-    inset 0 -3rpx 0 rgba(92, 122, 153, 0.12);
+    inset 0 -3rpx 0 rgba(22, 133, 107, 0.12);
   backdrop-filter: blur(26rpx) saturate(170%);
   -webkit-backdrop-filter: blur(26rpx) saturate(170%);
   line-height: 1;
@@ -308,6 +308,6 @@ export default {
   font-size: 60rpx;
   font-weight: 800;
   line-height: 1;
-  text-shadow: 0 2rpx 6rpx rgba(92, 122, 153, 0.28);
+  text-shadow: 0 2rpx 6rpx rgba(22, 133, 107, 0.24);
 }
 </style>

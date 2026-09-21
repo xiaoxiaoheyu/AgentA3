@@ -211,14 +211,14 @@ export default {
   height: 76rpx;
   padding: 0 24rpx;
   border-radius: 999rpx;
-  background: linear-gradient(135deg, #2F6FE4, #5A9BFF);
+  background: linear-gradient(135deg, #168B6A, #20B46B);
   color: #FFFFFF;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 26rpx;
   font-weight: 700;
-  box-shadow: 0 12rpx 26rpx rgba(47, 111, 228, 0.22);
+  box-shadow: 0 12rpx 26rpx rgba(22, 139, 106, 0.20);
 }
 
 .history-list {
@@ -256,8 +256,8 @@ export default {
 .session-count {
   padding: 6rpx 14rpx;
   border-radius: 999rpx;
-  background: #EAF2FF;
-  color: #2F6FE4;
+  background: #E8F7ED;
+  color: #168B6A;
   font-size: 22rpx;
 }
 
@@ -310,8 +310,8 @@ export default {
   height: 68rpx;
   padding: 0 30rpx;
   border-radius: 999rpx;
-  background: #EAF2FF;
-  color: #2F6FE4;
+  background: #E8F7ED;
+  color: #168B6A;
   font-size: 25rpx;
   font-weight: 700;
 }

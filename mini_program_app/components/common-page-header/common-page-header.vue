@@ -40,7 +40,7 @@ export default {
     placeholder: { type: Boolean, default: true },
     showBack: { type: Boolean, default: false },
     border: { type: Boolean, default: false },
-    background: { type: String, default: 'linear-gradient(180deg, #dff0ff 0%, #eaf5ff 100%)' },
+    background: { type: String, default: 'linear-gradient(180deg, #e8f7ed 0%, #edf8f1 100%)' },
     heightRpx: { type: Number, default: 88 },
     titleColor: { type: String, default: '#1D1D1F' },
     subtitleColor: { type: String, default: '#8E8E93' },

@@ -1430,8 +1430,8 @@ export default {
 
 .header-module {
 	position: relative;
-	background: linear-gradient(180deg, #dff0ff 0%, #eaf5ff 100%);
-	border-bottom: 1rpx solid rgba(177, 208, 235, 0.55);
+	background: linear-gradient(180deg, #e8f7ed 0%, #edf8f1 100%);
+	border-bottom: 1rpx solid rgba(184, 222, 197, 0.55);
 	padding: 18rpx 28rpx 18rpx;
 }
 
@@ -1513,7 +1513,7 @@ export default {
 .semester-caret {
 	flex-shrink: 0;
 	font-size: 20rpx;
-	color: #4b80ef;
+	color: #168b6a;
 }
 
 .today-chip {
@@ -1538,7 +1538,7 @@ export default {
 .today-chip__text {
 	font-size: 20rpx;
 	font-weight: 700;
-	color: #607088;
+	color: #5e6b65;
 	line-height: 1;
 	white-space: nowrap;
 }
@@ -1798,7 +1798,7 @@ export default {
 }
 
 .import-semester-item--current .import-semester-title {
-	color: #3f7df2;
+	color: #168b6a;
 }
 
 .import-semester-main {
@@ -1825,8 +1825,8 @@ export default {
 	flex-shrink: 0;
 	padding: 10rpx 18rpx;
 	border-radius: 999rpx;
-	background: #eaf2ff;
-	color: #3f7df2;
+	background: #e8f7ed;
+	color: #168b6a;
 	font-size: 22rpx;
 	font-weight: 700;
 }
@@ -1841,8 +1841,8 @@ export default {
 	height: 78rpx;
 	border: none;
 	border-radius: 18rpx;
-	background: #f2f6fb;
-	color: #536b87;
+	background: #f0f8f4;
+	color: #56645e;
 	font-size: 27rpx;
 	font-weight: 700;
 	line-height: 78rpx;
@@ -1910,7 +1910,7 @@ export default {
 .input-tip {
 	display: block;
 	font-size: 22rpx;
-	color: #7d8fa5;
+	color: #77847e;
 	margin-bottom: 16rpx;
 }
 
@@ -2191,11 +2191,11 @@ export default {
 	background: #facc15;
 }
 .course-block--blue {
-	background: #eff6ff;
-	color: #3b82f6;
+	background: #e8f7ed;
+	color: #168b6a;
 }
 .course-block--blue .course-accent {
-	background: #60a5fa;
+	background: #43c69a;
 }
 .course-block--purple {
 	background: #faf5ff;

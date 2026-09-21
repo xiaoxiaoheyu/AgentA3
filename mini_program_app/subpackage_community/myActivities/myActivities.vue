@@ -373,8 +373,8 @@ export default {
 }
 
 .filter-chip.active {
-  background: #EAF2FF;
-  color: #2B6FF3;
+  background: #E8F7ED;
+  color: #168B6A;
   font-weight: 600;
 }
 
@@ -433,8 +433,8 @@ export default {
 }
 
 .status-badge.signup {
-  background: #EAF5FF;
-  color: #2B6FF3;
+  background: #EDF8F1;
+  color: #168B6A;
 }
 
 .status-badge.ongoing {
@@ -538,8 +538,8 @@ export default {
 }
 
 .action-btn--primary {
-  background: #EAF2FF;
-  color: #2563EB;
+  background: #E8F7ED;
+  color: #168B6A;
 }
 
 .empty-state {
@@ -573,7 +573,7 @@ export default {
   height: 72rpx;
   padding: 0 36rpx;
   border-radius: 999rpx;
-  background: #2B6FF3;
+  background: #168B6A;
   color: #FFFFFF;
   display: inline-flex;
   align-items: center;

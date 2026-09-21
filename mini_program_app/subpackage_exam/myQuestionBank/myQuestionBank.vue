@@ -279,7 +279,7 @@ export default {
 <style lang="scss" scoped>
 .page {
   min-height: 100vh;
-  background: #f6f8fb;
+  background: #f7faf8;
   box-sizing: border-box;
 }
 
@@ -291,7 +291,7 @@ export default {
   padding: 8rpx;
   background: #ffffff;
   border-radius: 18rpx;
-  border: 1px solid #e4ebf1;
+  border: 1px solid #dfe9e3;
 }
 
 .tab {
@@ -306,8 +306,8 @@ export default {
 }
 
 .tab--active {
-  background: #e8eef3;
-  color: #304152;
+  background: #e8f7ed;
+  color: #176a57;
 }
 
 .admin-filter {
@@ -315,7 +315,7 @@ export default {
   padding: 20rpx;
   background: #ffffff;
   border-radius: 18rpx;
-  border: 1px solid #e4ebf1;
+  border: 1px solid #dfe9e3;
 }
 
 .filter-box {
@@ -329,7 +329,7 @@ export default {
   height: 68rpx;
   padding: 0 20rpx;
   background: #f8fafc;
-  border: 1px solid #dfe7ee;
+  border: 1px solid #dbe8e0;
   border-radius: 14rpx;
   font-size: 24rpx;
 }
@@ -338,7 +338,7 @@ export default {
 .filter-clear {
   font-size: 24rpx;
   font-weight: 700;
-  color: #5e7387;
+  color: #168b6a;
   padding: 0 8rpx;
 }
 
@@ -346,7 +346,7 @@ export default {
   display: block;
   margin-top: 12rpx;
   font-size: 22rpx;
-  color: #91a0af;
+  color: #78847f;
 }
 
 .toolbar {
@@ -365,7 +365,7 @@ export default {
 .create-btn {
   padding: 12rpx 22rpx;
   border-radius: 999rpx;
-  background: #5e7387;
+  background: #168b6a;
   color: #ffffff;
   font-size: 24rpx;
   font-weight: 700;
@@ -381,7 +381,7 @@ export default {
   margin-bottom: 16rpx;
   padding: 28rpx;
   background: #ffffff;
-  border: 1px solid #e4ebf1;
+  border: 1px solid #dfe9e3;
   border-radius: 22rpx;
 }
 
@@ -401,8 +401,8 @@ export default {
 .badge {
   padding: 6rpx 14rpx;
   border-radius: 999rpx;
-  background: #e8eef3;
-  color: #516274;
+  background: #e8f7ed;
+  color: #4e756b;
   font-size: 20rpx;
   font-weight: 700;
 }
@@ -412,7 +412,7 @@ export default {
   gap: 24rpx;
   margin-top: 16rpx;
   font-size: 24rpx;
-  color: #7b8794;
+  color: #77847e;
 }
 
 .owner {
@@ -424,7 +424,7 @@ export default {
 .card-actions {
   margin-top: 20rpx;
   padding-top: 18rpx;
-  border-top: 1px solid #eef2f5;
+  border-top: 1px solid #e9f1ec;
   display: flex;
   justify-content: flex-end;
   gap: 28rpx;
@@ -433,7 +433,7 @@ export default {
 .link {
   font-size: 24rpx;
   font-weight: 700;
-  color: #5e7387;
+  color: #168b6a;
 }
 
 .link.danger {
@@ -447,7 +447,7 @@ export default {
   flex-direction: column;
   align-items: center;
   gap: 16rpx;
-  color: #314253;
+  color: #263a33;
   font-size: 28rpx;
   font-weight: 700;
 }
@@ -455,7 +455,7 @@ export default {
 .state-desc {
   font-size: 24rpx;
   font-weight: 400;
-  color: #7b8794;
+  color: #77847e;
   line-height: 1.5;
 }
 
@@ -463,8 +463,8 @@ export default {
   margin-top: 8rpx;
   padding: 14rpx 28rpx;
   border-radius: 14rpx;
-  background: #e8eef3;
-  color: #304152;
+  background: #e8f7ed;
+  color: #176a57;
   font-size: 24rpx;
   font-weight: 700;
 }

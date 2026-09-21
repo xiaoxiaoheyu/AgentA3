@@ -2,7 +2,7 @@
   <view class="page">
     <nav-bar title="活动图结果" :showBack="true" :border="false" :fixed="true" :placeholder="true" titleAlign="center" />
     <!-- 顶部工具栏 -->
-                 <view class="top-bar" style="background: linear-gradient(180deg, #dff0ff 0%, #eaf5ff 100%) !important; border-bottom: 0 !important;">
+                 <view class="top-bar" style="background: linear-gradient(180deg, #e8f7ed 0%, #edf8f1 100%) !important; border-bottom: 0 !important;">
                    <view class="top-back" @tap="goBack" aria-label="返回上一页">
                      <view class="top-back-icon"></view>
                      <text class="top-back-text">返回</text>
@@ -242,7 +242,7 @@ const copyImageReal = () => uni.showToast({ title: '请使用下载图片保存�
   height: 128rpx;
   padding: 40rpx 28rpx 0;
   box-sizing: border-box;
-  background: linear-gradient(180deg, #dff0ff 0%, #eaf5ff 100%);
+  background: linear-gradient(180deg, #e8f7ed 0%, #edf8f1 100%);
   border-bottom: 0;
 }
 

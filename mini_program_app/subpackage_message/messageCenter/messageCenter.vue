@@ -473,7 +473,7 @@ export default {
 }
 
 .module-tab.active {
-  background: #EEF4F8;
+  background: #EEF7F1;
   color: #1D1D1F;
 }
 
@@ -506,7 +506,7 @@ export default {
   width: 8rpx;
   height: 32rpx;
   border-radius: 999rpx;
-  background: #7F9AB6;
+  background: #168B6A;
 }
 
 .section-title {
@@ -571,7 +571,7 @@ export default {
 }
 
 .chat-icon {
-  background: #EEF4F8;
+  background: #EEF7F1;
 }
 
 .trade-icon {
@@ -583,7 +583,7 @@ export default {
 }
 
 .exam-icon {
-  background: #EEF0FF;
+  background: #EDF8F1;
 }
 
 .forum-comment-icon {
@@ -697,7 +697,7 @@ export default {
   height: 84rpx;
   margin-bottom: 18rpx;
   border-radius: 50%;
-  background: #EEF4F8;
+  background: #EEF7F1;
   position: relative;
 }
 
@@ -705,7 +705,7 @@ export default {
 .empty-icon::after {
   content: '';
   position: absolute;
-  background: #8FA5BC;
+  background: #7A9B90;
 }
 
 .empty-icon::before {
@@ -715,7 +715,7 @@ export default {
   height: 28rpx;
   border-radius: 8rpx;
   background: transparent;
-  border: 4rpx solid #8FA5BC;
+  border: 4rpx solid #7A9B90;
 }
 
 .empty-icon::after {

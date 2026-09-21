@@ -718,7 +718,7 @@ onUnload(() => { clearTimers() })
 .error-btn--pri { background: #4D6BFE; color: #fff; }
 .page { background: #F6F7FB; }
 .canvas-area { background: #F6F7FB; }
-.header { background: linear-gradient(180deg, #DFF0FF 0%, #EAF5FF 100%); padding: 0 28rpx; min-height: 108rpx; box-sizing: content-box; }
+.header { background: linear-gradient(180deg, #e8f7ed 0%, #edf8f1 100%); padding: 0 28rpx; min-height: 108rpx; box-sizing: content-box; }
 .header { position: relative; }
 .header-center { position: absolute; left: 0; right: 0; top: 20rpx; pointer-events: none; }
 .header-back { left: 28rpx; top: 22rpx; width: 64rpx; height: 64rpx; }

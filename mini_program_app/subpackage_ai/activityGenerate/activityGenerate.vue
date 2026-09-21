@@ -280,7 +280,7 @@ const generateDescription = () => {
   height: 128rpx;
   padding: 40rpx 28rpx 0;
   box-sizing: border-box;
-  background: linear-gradient(180deg, #dff0ff 0%, #eaf5ff 100%);
+  background: linear-gradient(180deg, #e8f7ed 0%, #edf8f1 100%);
   position: sticky;
   top: 0;
   z-index: 100;

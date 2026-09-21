@@ -4,7 +4,15 @@
       <view class="container">
         <view class="page-content">
           <!-- ===== 1. Header: location + message ===== -->
-          <common-page-header title="首页" :fixed="true" :placeholder="true" :showBack="true" :autoBack="false" @back="onBackToApp" />
+          <common-page-header
+            title="首页"
+            :fixed="true"
+            :placeholder="true"
+            :showBack="true"
+            :autoBack="false"
+            background="linear-gradient(180deg, #e8f7ed 0%, #edf8f1 100%)"
+            @back="onBackToApp"
+          />
 
           <!-- ===== 2. Search (fixed outside scroll content) ===== -->
           <view class="search-block search-block--sticky">
@@ -913,7 +921,7 @@ export default {
   right: 36rpx;
   width: 100rpx;
   height: 100rpx;
-  background: rgba(111, 152, 208, 0.18);
+  background: rgba(32, 180, 107, 0.16);
 }
 
 .banner-content {
@@ -924,7 +932,7 @@ export default {
 .banner-tag {
   display: inline-flex;
   align-items: center;
-  background: #6F98D0;
+  background: #168B6A;
   border-radius: 20rpx;
   padding: 6rpx 18rpx;
   font-size: 20rpx;
@@ -1044,8 +1052,8 @@ export default {
 }
 
 .hot-badge-type--buy {
-  background: #4A90E2;
-  box-shadow: 0 4rpx 10rpx rgba(74, 144, 226, 0.35);
+  background: #168B6A;
+  box-shadow: 0 4rpx 10rpx rgba(22, 139, 106, 0.30);
 }
 
 .hot-body {

@@ -158,12 +158,12 @@ import NavBar from '@/components/nav-bar/nav-bar.vue'
 import { getMyCourses, getCampusCoursesPage, enrollCourse } from '@/api/campusCourse.js'
 
 const COVER_COLORS = [
-  'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-  'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+  'linear-gradient(135deg, #168b6a 0%, #43c69a 100%)',
+  'linear-gradient(135deg, #20b46b 0%, #75d6a5 100%)',
   'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
   'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
   'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)',
-  'linear-gradient(135deg, #4a90d9 0%, #6ba3e8 100%)'
+  'linear-gradient(135deg, #168b6a 0%, #43c69a 100%)'
 ]
 const COVER_EMOJIS = ['📚', '💻', '🎨', '🎯', '🗣️', '📊', '⚛️', '🔬']
 
@@ -316,7 +316,7 @@ export default {
 
 .campus-entry {
   margin: 20rpx 24rpx 0;
-  background: linear-gradient(135deg, #e8f2fd 0%, #f0f7ff 100%);
+  background: linear-gradient(135deg, #e8f7ed 0%, #f4fbf6 100%);
   border-radius: 20rpx;
   height: 176rpx;
   box-sizing: border-box;
@@ -362,19 +362,19 @@ export default {
   content: '进入选课';
   padding: 16rpx 30rpx;
   border-radius: 32rpx;
-  background: linear-gradient(135deg, #4a90d9, #5b9fe0);
+  background: linear-gradient(135deg, #168b6a, #20b46b);
   color: #fff;
   font-size: 24rpx;
   font-weight: 600;
   line-height: 1.2;
   white-space: nowrap;
-  box-shadow: 0 6rpx 18rpx rgba(74, 144, 217, 0.28);
+  box-shadow: 0 6rpx 18rpx rgba(22, 139, 106, 0.24);
 }
 
 .banner {
   display: none;
   margin: 24rpx 24rpx 0;
-  background: linear-gradient(135deg, #e8f2fd 0%, #f0f7ff 100%);
+  background: linear-gradient(135deg, #e8f7ed 0%, #f4fbf6 100%);
   border-radius: 24rpx;
   height: 176rpx;
   box-sizing: border-box;
@@ -382,7 +382,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4rpx 20rpx rgba(74, 144, 217, 0.08);
+  box-shadow: 0 4rpx 20rpx rgba(22, 139, 106, 0.08);
 }
 
 .banner-content {
@@ -422,7 +422,7 @@ export default {
   grid-row: 2;
   margin: 0;
   height: 8rpx;
-  background: #dbe4ee;
+  background: #d9e9df;
   border-radius: 5rpx;
   overflow: hidden;
   margin-bottom: 10rpx;
@@ -430,7 +430,7 @@ export default {
 
 .progress {
   height: 100%;
-  background: linear-gradient(90deg, #4a90d9, #6ba3e8);
+  background: linear-gradient(90deg, #168b6a, #43c69a);
   border-radius: 5rpx;
 }
 
@@ -442,13 +442,13 @@ export default {
 }
 
 .continue-btn {
-  background: linear-gradient(135deg, #4a90d9, #5b9fe0);
+  background: linear-gradient(135deg, #168b6a, #20b46b);
   color: #fff;
   border-radius: 32rpx;
   padding: 16rpx 30rpx;
   font-size: 24rpx;
   font-weight: 600;
-  box-shadow: 0 6rpx 18rpx rgba(74, 144, 217, 0.28);
+  box-shadow: 0 6rpx 18rpx rgba(22, 139, 106, 0.24);
 }
 
 .section {
@@ -475,10 +475,10 @@ export default {
 }
 
 .page-tab.active {
-  background: linear-gradient(135deg, #4a90d9, #5b9fe0);
+  background: linear-gradient(135deg, #168b6a, #20b46b);
   color: #fff;
   font-weight: 600;
-  box-shadow: 0 4rpx 14rpx rgba(74, 144, 217, 0.28);
+  box-shadow: 0 4rpx 14rpx rgba(22, 139, 106, 0.24);
 }
 
 .course-tabs {
@@ -495,7 +495,7 @@ export default {
 }
 
 .tab.active {
-  color: #4a90d9;
+  color: #168b6a;
   font-weight: 600;
 }
 
@@ -506,7 +506,7 @@ export default {
   left: 0;
   right: 0;
   height: 5rpx;
-  background: #4a90d9;
+  background: #168b6a;
   border-radius: 3rpx;
 }
 
@@ -650,13 +650,13 @@ export default {
 
 .mini-progress-inner {
   height: 100%;
-  background: linear-gradient(90deg, #4a90d9, #6ba3e8);
+  background: linear-gradient(90deg, #168b6a, #43c69a);
   border-radius: 4rpx;
 }
 
 .progress-num {
   font-size: 24rpx;
-  color: #4a90d9;
+  color: #168b6a;
   font-weight: 600;
 }
 
@@ -681,7 +681,7 @@ export default {
 
 .recommend-link {
   font-size: 24rpx;
-  color: #4a90d9;
+  color: #168b6a;
 }
 
 .recommend-item {
@@ -803,14 +803,14 @@ export default {
 }
 
 .level {
-  color: #4a90d9;
-  background: #e8f2fd;
+  color: #168b6a;
+  background: #e8f7ed;
   padding: 6rpx 16rpx;
   border-radius: 8rpx;
 }
 
 .add-btn {
-  background: linear-gradient(135deg, #4a90d9, #5b9fe0);
+  background: linear-gradient(135deg, #168b6a, #20b46b);
   color: #fff;
   padding: 10rpx 24rpx;
   border-radius: 26rpx;
@@ -850,8 +850,8 @@ export default {
   margin-top: 20rpx;
   padding: 16rpx 36rpx;
   border-radius: 12rpx;
-  border: 1px solid #4a90d9;
-  color: #4a90d9;
+  border: 1px solid #168b6a;
+  color: #168b6a;
   font-size: 26rpx;
 }
 </style>
