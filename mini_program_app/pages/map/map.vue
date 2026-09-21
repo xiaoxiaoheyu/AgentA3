@@ -52,10 +52,6 @@
                   @confirm="handleSearch"
                 />
                 <text v-if="searchKeyword" class="search-clear" @click.stop="clearSearch">×</text>
-                <view v-else class="voice-icon" aria-hidden="true">
-                  <view class="voice-icon__head"></view>
-                  <view class="voice-icon__stem"></view>
-                </view>
               </view>
               <view v-if="searchSuggestions.length" class="search-suggest-panel">
                 <view
@@ -279,8 +275,9 @@ import {
 } from '@/constants/facilityType'
 
 const CAMPUS_FALLBACK_CENTER = {
-  longitude: 114.898507,
-  latitude: 40.755672
+  // 成都理工大学成都校区（高德地图 GCJ-02）
+  longitude: 104.1469152,
+  latitude: 30.6750486
 }
 const DEFAULT_MAP_SCALE = 16
 const CLUSTER_SCALE_MIN = 8
@@ -1101,14 +1098,6 @@ export default {
       return (156543.03392 * Math.cos(this.toRadians(lat))) / (2 ** safeZoom)
     },
     assignMarkerLabelLayouts(items) {
-      const slots = [
-        { anchorX: 18, anchorY: -16 },
-        { anchorX: -18, anchorY: -16 },
-        { anchorX: 0, anchorY: 8 },
-        { anchorX: 24, anchorY: 6 },
-        { anchorX: -24, anchorY: 6 },
-        { anchorX: 0, anchorY: -36 }
-      ]
       const placed = []
       const layouts = {}
       const mpp = this.metersPerPixel()
@@ -1116,6 +1105,17 @@ export default {
         const lng = Number(item.longitude)
         const lat = Number(item.latitude)
         if (!Number.isFinite(lng) || !Number.isFinite(lat)) return
+        const name = `${item.name || item.shortName || '地点'}`.trim()
+        const fontSize = this.resolveMarkerLabelFontSize()
+        const lineChars = Math.max(1, Math.min(MARKER_LABEL_CHARS_PER_LINE, name.length))
+        // label 的 anchorX/anchorY 相对图钉底部定位；只允许名称在图标正上方。
+        const centeredAnchorX = -Math.round((lineChars * fontSize + 10) / 2)
+        const firstAnchorY = name.length > MARKER_LABEL_CHARS_PER_LINE ? -78 : -58
+        const slots = [
+          { anchorX: centeredAnchorX, anchorY: firstAnchorY },
+          { anchorX: centeredAnchorX, anchorY: firstAnchorY - 22 },
+          { anchorX: centeredAnchorX, anchorY: firstAnchorY - 44 }
+        ]
         let best = slots[0]
         let bestDist = -1
         slots.forEach((slot) => {
@@ -1308,7 +1308,13 @@ export default {
         height: markerHeight,
         anchor: { x: 0.5, y: 1 }
       }
-      const labelLayout = options.labelLayout || { anchorX: 16, anchorY: -16, hide: false }
+      const fallbackNameLength = Math.min(MARKER_LABEL_CHARS_PER_LINE, fullName.length)
+      const fallbackAnchorX = -Math.round((fallbackNameLength * this.resolveMarkerLabelFontSize() + 10) / 2)
+      const labelLayout = options.labelLayout || {
+        anchorX: fallbackAnchorX,
+        anchorY: fullName.length > MARKER_LABEL_CHARS_PER_LINE ? -78 : -58,
+        hide: false
+      }
       if (!isSelected && !labelLayout.hide && this.shouldShowMarkerLabel()) {
         marker.label = {
           content: this.wrapMarkerLabel(fullName),
@@ -2634,59 +2640,6 @@ export default {
   color: rgba(0, 0, 0, 0.32);
 }
 
-.voice-icon {
-  position: relative;
-  width: 46rpx;
-  height: 46rpx;
-  margin-left: 12rpx;
-  flex-shrink: 0;
-}
-
-.voice-icon__head {
-  position: absolute;
-  left: 16rpx;
-  top: 5rpx;
-  width: 14rpx;
-  height: 25rpx;
-  border: 4rpx solid var(--map-icon-gray);
-  border-radius: 999rpx;
-  box-sizing: border-box;
-}
-
-.voice-icon__stem {
-  position: absolute;
-  left: 21rpx;
-  top: 31rpx;
-  width: 4rpx;
-  height: 10rpx;
-  border-radius: 999rpx;
-  background: var(--map-icon-gray);
-}
-
-.voice-icon::before {
-  content: '';
-  position: absolute;
-  left: 11rpx;
-  top: 18rpx;
-  width: 24rpx;
-  height: 17rpx;
-  border: 4rpx solid var(--map-icon-gray);
-  border-top: none;
-  border-radius: 0 0 18rpx 18rpx;
-  box-sizing: border-box;
-}
-
-.voice-icon::after {
-  content: '';
-  position: absolute;
-  left: 14rpx;
-  bottom: 2rpx;
-  width: 18rpx;
-  height: 4rpx;
-  border-radius: 999rpx;
-  background: var(--map-icon-gray);
-}
-
 .category-bar {
   position: absolute;
   left: 24rpx;
@@ -2697,11 +2650,13 @@ export default {
   flex-direction: row;
   align-items: stretch;
   justify-content: space-between;
-  gap: 6rpx;
-  padding: 18rpx 12rpx 16rpx;
-  border-radius: 28rpx;
-  background: rgba(255, 255, 255, 0.98);
-  border: 1rpx solid #eceff3;
+  gap: 8rpx;
+  padding: 20rpx 14rpx 18rpx;
+  border-radius: 32rpx;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1rpx solid rgba(211, 225, 219, 0.9);
+  box-shadow: 0 18rpx 46rpx rgba(35, 76, 63, 0.13);
+  backdrop-filter: blur(20rpx) saturate(140%);
 }
 
 .category-bar__item {
@@ -2711,23 +2666,39 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10rpx;
+  gap: 11rpx;
   padding: 4rpx 2rpx;
 }
 
 .category-bar__item.active .category-bar__label {
-  color: #1d1d1f;
-  font-weight: 700;
+  color: #123f35;
+  font-weight: 900;
 }
 
 .category-bar__icon {
-  width: 80rpx;
-  height: 80rpx;
-  border-radius: 26rpx;
+  position: relative;
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 28rpx;
   display: flex;
   align-items: center;
   justify-content: center;
+  border: 2rpx solid rgba(255, 255, 255, 0.92);
+  box-shadow: 0 10rpx 22rpx rgba(50, 87, 76, 0.10), inset 0 2rpx 0 rgba(255, 255, 255, 0.7);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
+}
+
+.category-bar__icon::after {
+  content: '';
+  position: absolute;
+  left: 15rpx;
+  right: 15rpx;
+  bottom: 8rpx;
+  height: 4rpx;
+  border-radius: 999rpx;
+  background: currentColor;
+  opacity: 0.2;
 }
 
 .category-bar__item:active .category-bar__icon {
@@ -2735,53 +2706,61 @@ export default {
 }
 
 .category-bar__item--teaching .category-bar__icon {
-  background: #eaf1ff;
+  color: #397bf3;
+  background: linear-gradient(145deg, #e9f2ff, #f7fbff);
 }
 
 .category-bar__item--canteen .category-bar__icon {
-  background: #ffe8e4;
+  color: #ef6c59;
+  background: linear-gradient(145deg, #ffe6df, #fff7ef);
 }
 
 .category-bar__item--infra .category-bar__icon {
-  background: #eef1f5;
+  color: #68788d;
+  background: linear-gradient(145deg, #edf2f7, #fafcff);
 }
 
 .category-bar__item--sport .category-bar__icon {
-  background: #e5f7ea;
+  color: #20aa69;
+  background: linear-gradient(145deg, #ddf8e8, #f3fff8);
 }
 
 .category-bar__item.active .category-bar__icon {
-  box-shadow: inset 0 0 0 2rpx rgba(47, 107, 255, 0.24);
+  transform: translateY(-3rpx);
+  box-shadow: 0 13rpx 27rpx rgba(35, 97, 77, 0.17), inset 0 0 0 3rpx currentColor;
 }
 
 .category-bar__glyph {
-  width: 44rpx;
-  height: 44rpx;
+  position: relative;
+  z-index: 1;
+  width: 54rpx;
+  height: 54rpx;
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 40rpx 40rpx;
+  background-size: 52rpx 52rpx;
 }
 
 .category-bar__item--teaching .category-bar__glyph {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'%3E%3Cpath d='M8 18L20 9l12 9v14H8V18z' fill='%232F6BFF'/%3E%3Cpath d='M6 18.5L20 7.5l14 11' stroke='%235B8CFF' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Crect x='16.5' y='23' width='7' height='9' rx='1.2' fill='%23FFFFFF'/%3E%3Crect x='11' y='21' width='4.5' height='4.5' rx='0.8' fill='%23DCE8FF'/%3E%3Crect x='24.5' y='21' width='4.5' height='4.5' rx='0.8' fill='%23DCE8FF'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52' fill='none'%3E%3Cpath d='M8 22L26 10l18 12v21H8V22z' fill='%233979F2'/%3E%3Cpath d='M5 22L26 7l21 15' stroke='%2365A1FF' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M21 43V31h10v12' fill='%23FFFFFF'/%3E%3Cpath d='M13 27h5v6h-5zM34 27h5v6h-5z' fill='%23DCEBFF'/%3E%3Ccircle cx='26' cy='18' r='4.2' fill='%23FFD052'/%3E%3Cpath d='M26 15.5v3l2 1.3' stroke='%23FFFFFF' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 .category-bar__item--canteen .category-bar__glyph {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'%3E%3Cpath d='M8 20c0 8 5.4 13 12 13s12-5 12-13H8z' fill='%23E86060'/%3E%3Cpath d='M7 18.5h26' stroke='%23F08A7A' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M15 8.5l1.2 8' stroke='%23C94A4A' stroke-width='2.2' stroke-linecap='round'/%3E%3Cpath d='M20 7.5v9' stroke='%23C94A4A' stroke-width='2.2' stroke-linecap='round'/%3E%3Cpath d='M25 8.5l-1.2 8' stroke='%23C94A4A' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52' fill='none'%3E%3Cpath d='M8 27h31c0 10-6.8 16-15.5 16S8 37 8 27z' fill='%23EF6755'/%3E%3Cpath d='M6 25h35' stroke='%23FF8B72' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M16 12c-3 4 3 5 0 9M24 9c-3 5 3 6 0 12M32 12c-3 4 3 5 0 9' stroke='%23F2A541' stroke-width='2.7' stroke-linecap='round'/%3E%3Cpath d='M37 10l8 28M41 9l8 28' stroke='%239B5A38' stroke-width='2.8' stroke-linecap='round'/%3E%3Cpath d='M16 43h15' stroke='%23C94A4A' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 .category-bar__item--infra .category-bar__glyph {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'%3E%3Crect x='5' y='14' width='11' height='19' rx='2' fill='%236B7280'/%3E%3Crect x='14' y='8' width='13' height='25' rx='2' fill='%238B93A0'/%3E%3Crect x='25' y='17' width='10' height='16' rx='2' fill='%23A0A8B4'/%3E%3Crect x='7.2' y='17.5' width='2.8' height='2.8' rx='0.5' fill='%23E5E7EB'/%3E%3Crect x='7.2' y='23' width='2.8' height='2.8' rx='0.5' fill='%23E5E7EB'/%3E%3Crect x='17.2' y='12' width='2.8' height='2.8' rx='0.5' fill='%23F3F4F6'/%3E%3Crect x='21.5' y='12' width='2.8' height='2.8' rx='0.5' fill='%23F3F4F6'/%3E%3Crect x='17.2' y='17.5' width='2.8' height='2.8' rx='0.5' fill='%23F3F4F6'/%3E%3Crect x='21.5' y='17.5' width='2.8' height='2.8' rx='0.5' fill='%23F3F4F6'/%3E%3Crect x='27.2' y='20.5' width='2.6' height='2.6' rx='0.5' fill='%23E5E7EB'/%3E%3Crect x='31' y='20.5' width='2.6' height='2.6' rx='0.5' fill='%23E5E7EB'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52' fill='none'%3E%3Crect x='7' y='18' width='13' height='25' rx='2.5' fill='%2368788D'/%3E%3Crect x='18' y='10' width='17' height='33' rx='2.5' fill='%238998AA'/%3E%3Crect x='33' y='22' width='12' height='21' rx='2.5' fill='%23ABB6C4'/%3E%3Cpath d='M11 24h5M11 30h5M23 17h7M23 23h7M23 29h7M37 28h4M37 34h4' stroke='%23EDF3F8' stroke-width='2.8' stroke-linecap='round'/%3E%3Cpath d='M24 43v-8h6v8' fill='%23F7C955'/%3E%3Cpath d='M5 43h42' stroke='%23556375' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 .category-bar__item--sport .category-bar__glyph {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40' fill='none'%3E%3Ccircle cx='20' cy='20' r='13' stroke='%2338A85A' stroke-width='2.8'/%3E%3Cpath d='M20 7c3.4 3.2 5.4 7.4 5.4 13S23.4 29.8 20 33c-3.4-3.2-5.4-7.4-5.4-13S16.6 10.2 20 7z' stroke='%2363C27D' stroke-width='2'/%3E%3Cpath d='M8.2 15.5h23.6M8.2 24.5h23.6' stroke='%2338A85A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52' fill='none'%3E%3Cellipse cx='26' cy='27' rx='19' ry='14' stroke='%2320AA69' stroke-width='3.5'/%3E%3Cellipse cx='26' cy='27' rx='12' ry='8' stroke='%2361CF91' stroke-width='2.5'/%3E%3Cpath d='M7 27h7M38 27h7' stroke='%2320AA69' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='26' cy='27' r='5.5' fill='%233D8BEF'/%3E%3Cpath d='M24 23.5l4 1.2 1.2 4-3.2 2.5-3.5-2 0.2-3.7z' fill='%23FFFFFF'/%3E%3Cpath d='M12 12h9l3 6H10l2-6z' fill='%23F6C84E'/%3E%3Cpath d='M15 18v5' stroke='%239A7416' stroke-width='2.4'/%3E%3C/svg%3E");
 }
 
 .category-bar__label {
-  font-size: 22rpx;
+  font-size: 23rpx;
   line-height: 1.2;
-  color: #526b7e;
+  color: #486475;
+  font-weight: 700;
   text-align: center;
   white-space: nowrap;
 }

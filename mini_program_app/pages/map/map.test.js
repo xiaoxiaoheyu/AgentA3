@@ -103,6 +103,32 @@ test('h5 map uses absolute static icons and native-style marker labels', () => {
   assert.match(source, /window\.location\.origin/)
 })
 
+test('default viewport targets Chengdu University of Technology Chengdu campus', () => {
+  assert.match(source, /longitude:\s*104\.1469152/)
+  assert.match(source, /latitude:\s*30\.6750486/)
+  assert.doesNotMatch(source, /114\.898507/)
+  assert.doesNotMatch(source, /40\.755672/)
+})
+
+test('marker names are constrained above their icons', () => {
+  assert.match(source, /const centeredAnchorX = -Math\.round/)
+  assert.match(source, /const firstAnchorY = name\.length > MARKER_LABEL_CHARS_PER_LINE \? -78 : -58/)
+  assert.doesNotMatch(source, /anchorY:\s*8/)
+  assert.doesNotMatch(source, /anchorY:\s*6/)
+})
+
+test('map search has no inactive voice control and category shortcuts keep their actions', () => {
+  assert.doesNotMatch(source, /class="voice-icon"/)
+  assert.doesNotMatch(source, /voice-icon__head/)
+  assert.match(source, /@confirm="handleSearch"/)
+  assert.match(source, /v-for="item in categoryTiles"/)
+  assert.match(source, /@click="selectCategory\(item\.id\)"/)
+  assert.match(source, /category-bar__item--teaching/)
+  assert.match(source, /category-bar__item--canteen/)
+  assert.match(source, /category-bar__item--infra/)
+  assert.match(source, /category-bar__item--sport/)
+})
+
 test('map keeps locate logic without the floating tool buttons', () => {
   assert.doesNotMatch(source, /class="map-tool-stack"/)
   assert.doesNotMatch(source, /aria-label="回到当前位置"/)

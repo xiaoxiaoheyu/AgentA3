@@ -15,6 +15,10 @@ import {
   updateMapPlace,
 } from '../../../api/mapPlace'
 import { toFacilityTypeOptions, createFacilityTypeLabelGetter } from '../../../config/facilityType'
+import pinCanteen from '../../../../../mini_program_app/static/icons/map/pin-canteen.png'
+import pinInfra from '../../../../../mini_program_app/static/icons/map/pin-infra.png'
+import pinSport from '../../../../../mini_program_app/static/icons/map/pin-sport.png'
+import pinTeaching from '../../../../../mini_program_app/static/icons/map/pin-teaching.png'
 import './MarkerManage.css'
 
 /* ============================================================
@@ -22,7 +26,8 @@ import './MarkerManage.css'
    ============================================================ */
 const AMAP_WEB_KEY = import.meta.env.VITE_AMAP_WEB_KEY || '64bc139adb6a611277fb8f6821b371ac'
 const AMAP_SECURITY_JS_CODE = import.meta.env.VITE_AMAP_SECURITY_JS_CODE || ''
-const DEFAULT_CENTER = { lng: 114.897014, lat: 40.755502 }
+// 成都理工大学成都校区，高德地图使用 GCJ-02 坐标。
+const DEFAULT_CENTER = { lng: 104.1469152, lat: 30.6750486 }
 const DEFAULT_ZOOM = 16
 
 const STATUS_MAP = {
@@ -32,12 +37,13 @@ const STATUS_MAP = {
 }
 
 const TYPE_META = {
-  1: { color: '#FF6B6B', label: '食堂', short: '食' },
-  2: { color: '#1DD1A1', label: '运动场', short: '运' },
-  5: { color: '#FECA57', label: '其他', short: '其' },
-  6: { color: '#3B82F6', label: '教学楼', short: '教' },
-  7: { color: '#A55EEA', label: '宿舍', short: '宿' },
-  99: { color: '#9CA3AF', label: '其他', short: '?' },
+  // 与 mini_program_app/pages/map/map.vue 的 POI_MARKER_STYLE 保持一致。
+  1: { color: '#C9864D', label: '食堂', short: '食', icon: pinCanteen },
+  2: { color: '#4E8A69', label: '运动场', short: '运', icon: pinSport },
+  5: { color: '#6B7C8D', label: '其他', short: '其', icon: pinInfra },
+  6: { color: '#4D6F8F', label: '教学楼', short: '教', icon: pinTeaching },
+  7: { color: '#6B7C8D', label: '宿舍', short: '宿', icon: pinInfra },
+  99: { color: '#6B7C8D', label: '其他', short: '?', icon: pinInfra },
 }
 const tmeta = (t) => TYPE_META[t] || TYPE_META[99]
 
@@ -275,8 +281,11 @@ export default function MarkerManage() {
         setMarkers(data ? [mapPlaceToMarker(data)] : [])
         return
       }
-      const { data } = await getMapPlaceList()
-      const rootPlaces = (Array.isArray(data) ? data : []).filter((place) => place.parentId == null)
+      // 标点管理默认与小程序地图保持一致，只展示当前启用的校园点位。
+      const { data } = await getMapPlaceList({ status: 'ENABLED' })
+      const rootPlaces = (Array.isArray(data) ? data : []).filter((place) => (
+        place.parentId == null && place.mapVisible !== false
+      ))
       const details = await Promise.all(rootPlaces.map((place) => getMapPlaceDetail(place.id)))
       setMarkers(details.map((response) => mapPlaceToMarker(response.data)).filter(Boolean))
     } catch (e) { message.error(e?.message || '加载失败') }
@@ -424,6 +433,11 @@ export default function MarkerManage() {
       const pin = document.createElement('span')
       pin.className = 'marker-map-place__pin'
       pin.style.setProperty('--marker-color', item.meta.color)
+      const pinImage = document.createElement('img')
+      pinImage.className = 'marker-map-place__pin-image'
+      pinImage.src = item.meta.icon || pinInfra
+      pinImage.alt = ''
+      pin.append(pinImage)
 
       wrapper.append(label, pin)
       return wrapper
@@ -435,7 +449,7 @@ export default function MarkerManage() {
         map,
         position: [l, a],
         content: createMarkerContent(item),
-        offset: new window.AMap.Pixel(-70, -57),
+        offset: new window.AMap.Pixel(-70, -72),
         zIndex: sel ? 140 : 100,
         bubble: false,
       })
@@ -445,59 +459,73 @@ export default function MarkerManage() {
       })
       ovs.push(mk)
     }
-    if (pointRows.length < 30) {
-      pointRows.forEach(addPointMarker)
-    } else {
-      const pointByPosition = new Map(pointRows.map((item) => [`${item.lng},${item.lat}`, item]))
-      amapPlugin('AMap.MarkerCluster').then(() => {
-        if (cancelled || !window.AMap?.MarkerCluster) return
-        const cluster = new window.AMap.MarkerCluster(
-          map,
-          pointRows.map((item) => ({ lnglat: [item.lng, item.lat], weight: item.selected ? 10 : 1 })),
-          {
-            gridSize: 60,
-            maxZoom: 16,
-            averageCenter: true,
-            renderClusterMarker: (context) => {
-              const node = document.createElement('div')
-              node.className = 'marker-cluster-pin'
-              node.textContent = String(context.count)
-              context.marker.setContent(node)
-              context.marker.setOffset(new window.AMap.Pixel(-19, -19))
-            },
-            renderMarker: (context) => {
-              const position = context.marker.getPosition?.()
-              const key = `${toNum(position?.getLng?.() ?? position?.lng)},${toNum(position?.getLat?.() ?? position?.lat)}`
-              const item = pointByPosition.get(key)
-              const node = item
-                ? createMarkerContent(item)
-                : createMarkerContent({
-                  marker: { markerName: '未命名点位' },
-                  meta: TYPE_META[99],
-                  selected: false,
-                })
-              context.marker.setContent(node)
-              context.marker.setOffset(new window.AMap.Pixel(-70, -57))
-              if (item && !context.marker.__markerManageBound) {
-                context.marker.__markerManageBound = true
-                context.marker.setExtData(item)
-                context.marker.on('click', () => {
-                  const current = context.marker.getExtData()
-                  if (!current) return
-                  map.setZoomAndCenter(Math.max(map.getZoom() || 16, 17), [current.lng, current.lat])
-                  openPlaceDetail(current.marker)
-                })
-              } else if (item) {
-                context.marker.setExtData(item)
-              }
-            },
-          },
-        )
-        ovs.push(cluster)
-      }).catch(() => {
-        if (!cancelled) pointRows.forEach(addPointMarker)
-      })
+    // 不再以“至少 30 个点位”为条件：与 App 一样，在 16 级及以下始终按视野聚合。
+    const pointById = new Map(pointRows.map((item) => [String(item.marker.id), item]))
+    const resolveClusterItem = (context) => {
+      const clusterData = Array.isArray(context?.data) ? context.data[0] : context?.data
+      const byId = pointById.get(String(clusterData?.markerId ?? ''))
+      if (byId) return byId
+
+      // 高德内部可能规范化坐标精度，不能再用坐标字符串完全相等反查。
+      const position = context?.marker?.getPosition?.()
+      const lng = toNum(position?.getLng?.() ?? position?.lng)
+      const lat = toNum(position?.getLat?.() ?? position?.lat)
+      if (lng == null || lat == null) return null
+      return pointRows.reduce((nearest, item) => {
+        const distance = ((item.lng - lng) ** 2) + ((item.lat - lat) ** 2)
+        return !nearest || distance < nearest.distance ? { item, distance } : nearest
+      }, null)?.item || null
     }
+    amapPlugin('AMap.MarkerCluster').then(() => {
+      if (cancelled || !window.AMap?.MarkerCluster) return
+      const cluster = new window.AMap.MarkerCluster(
+        map,
+        pointRows.map((item) => ({
+          lnglat: [item.lng, item.lat],
+          markerId: String(item.marker.id),
+          weight: item.selected ? 10 : 1,
+        })),
+        {
+          gridSize: 60,
+          maxZoom: 16,
+          averageCenter: true,
+          renderClusterMarker: (context) => {
+            const node = document.createElement('div')
+            node.className = 'marker-cluster-pin'
+            node.textContent = String(context.count)
+            context.marker.setContent(node)
+            context.marker.setOffset(new window.AMap.Pixel(-21, -21))
+          },
+          renderMarker: (context) => {
+            const item = resolveClusterItem(context)
+            const node = item
+              ? createMarkerContent(item)
+              : createMarkerContent({
+                marker: { markerName: '未命名点位' },
+                meta: TYPE_META[99],
+                selected: false,
+              })
+            context.marker.setContent(node)
+            context.marker.setOffset(new window.AMap.Pixel(-70, -72))
+            if (item && !context.marker.__markerManageBound) {
+              context.marker.__markerManageBound = true
+              context.marker.setExtData(item)
+              context.marker.on('click', () => {
+                const current = context.marker.getExtData()
+                if (!current) return
+                map.setZoomAndCenter(Math.max(map.getZoom() || 16, 17), [current.lng, current.lat])
+                openPlaceDetail(current.marker)
+              })
+            } else if (item) {
+              context.marker.setExtData(item)
+            }
+          },
+        },
+      )
+      ovs.push(cluster)
+    }).catch(() => {
+      if (!cancelled) pointRows.forEach(addPointMarker)
+    })
 
     if (editorOpen && draft.geometryType === 'AREA' && draft.boundaryPoints.length) {
       const path = parseBoundaryPoints(draft.boundaryPoints)
