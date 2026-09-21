@@ -44,7 +44,7 @@ public class ExamPaperPreviewServiceImpl implements ExamPaperPreviewService {
     public ExamPaperPreviewServiceImpl(ExamQuestionRepository questionRepository,
             @Value("${exam-paper.preview.soffice-path:soffice}") String sofficePath,
             @Value("${exam-paper.preview.timeout-seconds:30}") long timeoutSeconds,
-            @Value("${exam-paper.preview.root:${java.io.tmpdir}/agent-a3-exam-preview}") String root,
+            @Value("${exam-paper.preview.root:${java.io.tmpdir}/agent-a3-exam-preview-v1}") String root,
             @Value("${exam-paper.preview.ttl-minutes:30}") long ttlMinutes,
             @Value("${exam-paper.preview.cleanup-interval-ms:60000}") long cleanupIntervalMs) {
         this(questionRepository, new ExamPaperDocumentDispatcher(), Path.of(root),

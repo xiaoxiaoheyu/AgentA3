@@ -155,7 +155,7 @@ exam-paper:
   preview:
     soffice-path: ${EXAM_PAPER_PREVIEW_SOFFICE_PATH:soffice}
     timeout-seconds: ${EXAM_PAPER_PREVIEW_TIMEOUT_SECONDS:30}
-    root: ${EXAM_PAPER_PREVIEW_ROOT:${java.io.tmpdir}/agent-a3-exam-preview}
+    root: ${EXAM_PAPER_PREVIEW_ROOT:${java.io.tmpdir}/agent-a3-exam-preview-v1}
     ttl-minutes: ${EXAM_PAPER_PREVIEW_TTL_MINUTES:30}
     cleanup-interval-ms: ${EXAM_PAPER_PREVIEW_CLEANUP_INTERVAL_MS:60000}
 
