@@ -213,6 +213,7 @@ import {
   togglePostLike
 } from '@/api/forum.js'
 import { getUserInfo } from '@/utils/storage.js'
+import { repairMojibake, repairTopicName } from '@/utils/text.js'
 
 export default {
   components: { AiFloatAssistant, NavBar, PostEditor },
@@ -306,7 +307,7 @@ export default {
         const res = await getTopicList({ pageNum: 1, pageSize: 100, status: 'ACTIVE' })
         const items = (res?.data?.records || []).map((item) => ({
           id: item.id,
-          name: item.topicName || '未命名话题'
+          name: repairTopicName(item.id, item.topicName) || '未命名话题'
         }))
         this.topics = [{ id: 0, name: '全部' }, ...items]
         // 发帖可选话题:排除「热门/最新」两个虚拟板块(id=1/2)
@@ -337,7 +338,7 @@ export default {
         const res = await getHotTopics({ limit: 8 })
         this.hotTopics = (res?.data || []).map((item) => ({
           id: item.id,
-          name: item.topicName || '未命名话题',
+          name: repairTopicName(item.id, item.topicName) || '未命名话题',
           heat: item.postCount || 0
         }))
       } catch (error) {
@@ -415,7 +416,7 @@ export default {
         title: post.title || '',
         content: post.content || '',
         images: parseImageList(post.images),
-        topicName: post.topicName || '',
+        topicName: repairTopicName(post.topicId, post.topicName) || '',
         topicId: post.topicId || 0,
         likeCount: post.likeCount || 0,
         commentCount: post.commentCount || 0,

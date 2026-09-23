@@ -267,6 +267,7 @@
 import NavBar from '@/components/nav-bar/nav-bar.vue'
 import { deleteMeeting as deleteMeetingApi, getMeetingDetail, getMyMeetingTasks } from '@/api/ai.js'
 import { getCurrentUserId } from '@/utils/storage.js'
+import { repairMojibake } from '@/utils/text.js'
 
 export default {
 	components: { NavBar },
@@ -398,10 +399,14 @@ export default {
 			this.status = session.status || this.status
 			this.startTime = session.startTime || ''
 			this.scheduledStartTime = session.scheduledStartTime || ''
-			this.participants = Array.isArray(detail.participants) ? detail.participants : []
+			this.participants = Array.isArray(detail.participants)
+				? detail.participants.map(name => repairMojibake(name))
+				: []
 						// 参会人数以最多人数为准：优先使用全部参会记录（含中途离开者），无记录时退回在线名单
 						const records = Array.isArray(detail.participantRecords) ? detail.participantRecords : []
-						this.allParticipantNames = records.length > 0 ? records.map(item => item && item.name).filter(Boolean) : this.participants
+						this.allParticipantNames = records.length > 0
+							? records.map(item => repairMojibake(item && item.name)).filter(Boolean)
+							: this.participants
 			this.records = Array.isArray(detail.records) ? detail.records : []
 			this.results = Array.isArray(detail.results) ? detail.results : []
 		},

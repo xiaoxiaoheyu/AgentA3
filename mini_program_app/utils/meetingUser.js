@@ -1,4 +1,5 @@
 import { getUserInfo } from './storage.js'
+import { repairMojibake } from './text.js'
 
 export function getCurrentDisplayName() {
   const user = getUserInfo()
@@ -20,13 +21,14 @@ export function buildMeetingParticipants(extraParticipants = []) {
 }
 
 export function toMeetingMembers(participants = [], currentName = getCurrentDisplayName()) {
+  const repairedCurrentName = repairMojibake(currentName)
   return participants
     .filter(name => typeof name === 'string' && name.trim())
     .map((name, index) => {
-      const displayName = name.trim()
+      const displayName = repairMojibake(name.trim())
       return {
         name: displayName,
-        isSelf: !!currentName && displayName === currentName,
+        isSelf: !!repairedCurrentName && displayName === repairedCurrentName,
         className: `avatar-${['a', 'b', 'c', 'd'][index % 4]}`
       }
     })

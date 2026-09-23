@@ -358,6 +358,7 @@
 <script>
 import { endMeeting as finishMeetingApi, getMeetingDetail, leaveMeeting as leaveMeetingApi, streamLlmChat, transferHost } from '@/api/ai.js'
 import { getCurrentDisplayName, toMeetingMembers } from '@/utils/meetingUser.js'
+import { repairMojibake } from '@/utils/text.js'
 import { BASE_URL } from '@/utils/config.js'
 import { getToken, getUserInfo, getCurrentUserId } from '@/utils/storage.js'
 
@@ -593,9 +594,15 @@ export default {
 			if (session.title) this.title = session.title
 			if (session.roomCode) this.roomCode = session.roomCode
 			if (Array.isArray(detail.participants) && detail.participants.length > 0) {
-				this.members = toMeetingMembers(detail.participants)
+				const currentName = getCurrentDisplayName()
+				const loggedInId = getCurrentUserId()
+				const hostIsCurrentUser = session?.creatorId != null && String(session.creatorId) === String(loggedInId)
+				const participantNames = hostIsCurrentUser && currentName
+					? [currentName, ...detail.participants.slice(1)]
+					: detail.participants
+				this.members = toMeetingMembers(participantNames, currentName)
 				// 与 meetingDetail 页一致：participants[0] 为主持人姓名，用于卡片标注展示
-				this.hostName = String(detail.participants[0] || '').trim()
+				this.hostName = repairMojibake(String(participantNames[0] || '').trim())
 			}
 			// 与 meetingRoom 主持人逻辑对齐：creatorId 与当前用户 id 一致即为主持人
 			const creatorId = session?.creatorId
@@ -638,7 +645,7 @@ export default {
 				const trimmed = line.trim()
 				if (!trimmed) return
 				const match = trimmed.match(/^\[说话人：(.+?)\]\s*(.*)$/)
-				const speaker = match ? match[1].trim() : '参会成员'
+					const speaker = repairMojibake(match ? match[1].trim() : '参会成员') || '参会成员'
 				const text = match ? match[2].trim() : trimmed
 				if (!text) return
 				items.push({
@@ -1091,7 +1098,7 @@ export default {
 			if (payload.type === 'asr_result') {
 				const item = {
 					speakerUserId: payload.speakerUserId || '',
-					speaker: payload.speaker || '参会成员',
+					speaker: repairMojibake(payload.speaker || '参会成员') || '参会成员',
 					text: payload.text || '',
 					isFinal: !!payload.isFinal,
 					isSelf: this.isSelfSpeaker(payload)
@@ -1256,7 +1263,7 @@ export default {
 			const now = new Date()
 			const time = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
 			this.subtitleRecords.push({
-				speaker: item.speaker || '参会成员',
+					speaker: repairMojibake(item.speaker || '参会成员') || '参会成员',
 				text,
 				time,
 				isSelf: item.isSelf,
@@ -1687,7 +1694,9 @@ export default {
 			try {
 				const list = uni.getStorageSync(`meeting_danmaku_${this.sessionId}`)
 				if (Array.isArray(list) && list.length > 0) {
-					const validList = list.filter(item => item && (item.text || item.speaker))
+					const validList = list
+						.filter(item => item && (item.text || item.speaker))
+						.map(item => ({ ...item, speaker: repairMojibake(item.speaker || '参会成员') || '参会成员' }))
 					validList.forEach(item => {
 						if (!item.timestamp) item.timestamp = 0
 					})

@@ -76,6 +76,7 @@
 
 <script>
 import { getMeetings } from '@/api/ai.js'
+import { repairMojibake } from '@/utils/text.js'
 export default {
 	data() {
 		return {
@@ -222,9 +223,9 @@ export default {
 		},
 		getHostName(item) {
 			if (Array.isArray(item.participants) && item.participants.length > 0) {
-				return item.participants[0]
+				return repairMojibake(item.participants[0])
 			}
-			if (item.hostName) return item.hostName
+			if (item.hostName) return repairMojibake(item.hostName)
 			return '未知'
 		},
 		getStatusText(status) {

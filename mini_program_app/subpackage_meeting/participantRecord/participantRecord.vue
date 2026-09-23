@@ -60,6 +60,7 @@
 <script>
 import NavBar from '@/components/nav-bar/nav-bar.vue'
 import { getMeetingDetail } from '@/api/ai.js'
+import { repairMojibake } from '@/utils/text.js'
 
 const MOCK_MEMBERS = [
 	{ name: '测试学生', status: '全程参会', joinTime: '14:00', leaveTime: '14:42', duration: 42, entries: [] },
@@ -121,7 +122,7 @@ export default {
 
 				if (Array.isArray(detail.participantRecords) && detail.participantRecords.length > 0) {
 					this.members = detail.participantRecords.map(m => ({
-						name: m.name || '成员',
+						name: repairMojibake(m.name) || '成员',
 						status: m.status || '全程参会',
 						joinTime: m.joinTime || '',
 						leaveTime: m.leaveTime || '',
