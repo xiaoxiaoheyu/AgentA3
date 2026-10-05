@@ -66,12 +66,34 @@
 </template>
 
 <script>
-import { getCurrentSchedule } from '@/api/schedule.js'
+import { getAllSchedules, getCurrentSchedule } from '@/api/schedule.js'
 
 const HOME_PERIOD_HEIGHT = 144
 const HOME_PERIOD_GAP = 4
 const HOME_PERIOD_STEP = HOME_PERIOD_HEIGHT + HOME_PERIOD_GAP
 const HOME_COURSE_THEMES = ['green', 'red', 'orange', 'yellow', 'green', 'red']
+
+const isWeekInRange = (weekRange, currentWeek) => {
+	if (!weekRange || !currentWeek) return false
+	const parts = String(weekRange).replace(/\s+/g, '').split(/[，,]/).filter(Boolean)
+	return parts.some((part) => {
+		const oddOnly = part.includes('单')
+		const evenOnly = part.includes('双')
+		const normalized = part.replace(/\(单\)|\(双\)|单|双|周/g, '')
+		if (normalized.includes('-')) {
+			const [start, end] = normalized.split('-').map(Number)
+			if (!start || !end || currentWeek < start || currentWeek > end) return false
+			if (oddOnly && currentWeek % 2 === 0) return false
+			if (evenOnly && currentWeek % 2 !== 0) return false
+			return true
+		}
+		const week = Number(normalized)
+		if (!week || week !== currentWeek) return false
+		if (oddOnly && currentWeek % 2 === 0) return false
+		if (evenOnly && currentWeek % 2 !== 0) return false
+		return true
+	})
+}
 
 export default {
 	name: 'HomeScheduleCard',
@@ -110,7 +132,15 @@ export default {
 		},
 		visibleCourses() {
 			const [start, end] = this.currentPeriodRange
-			return this.courses.filter((course) => course.start >= start && course.end <= end)
+			const grouped = new Map()
+			this.courses
+				.filter((course) => course.start >= start && course.end <= end)
+				.forEach((course) => {
+					const key = `${course.day}-${course.start}-${course.end}`
+					if (!grouped.has(key)) grouped.set(key, [])
+					grouped.get(key).push(course)
+				})
+			return Array.from(grouped.values()).map((items) => items.find((item) => item.isCurrentWeek) || items[0])
 		},
 		boardHeight() {
 			return this.visiblePeriods.length * HOME_PERIOD_STEP
@@ -133,13 +163,24 @@ export default {
 	methods: {
 		async loadCurrentWeek() {
 			try {
-				const res = await getCurrentSchedule()
-				const payload = res?.data || {}
+				const currentRes = await getCurrentSchedule()
+				const payload = currentRes?.data || {}
 				const week = payload.currentWeek
 				if (week) {
 					this.currentWeek = week
 				}
 				this.courses = this.transformSchedule(payload.schedule || [])
+				try {
+					const scheduleRes = await getAllSchedules({
+						academicYear: payload.academicYear,
+						semesterTerm: payload.semesterTerm
+					})
+					if (Array.isArray(scheduleRes?.data)) {
+						this.courses = this.transformSchedule(scheduleRes.data)
+					}
+				} catch (error) {
+					// 保留 current 接口可能返回的课表，避免二次请求失败时清空首页。
+				}
 				const hasCourseInCurrentPage = this.visibleCourses.length > 0
 				const hasLateCourse = this.courses.some((course) => course.start >= 7)
 				if (!hasCourseInCurrentPage && hasLateCourse) {
@@ -149,10 +190,10 @@ export default {
 		},
 		transformSchedule(scheduleList) {
 			return scheduleList.flatMap((item, index) => {
-				const sessions = this.parseClassSessions(item.classSessions)
-				if (!sessions) return []
+				const sessions = this.parseClassSessions(item.classSessions) || { start: 1, end: 1 }
 				const courseName = item.courseName || item.name || ''
 				const location = item.location || ''
+				const weekRange = item.weekRange || ''
 				const courseChunks = []
 
 				for (let chunkStart = sessions.start; chunkStart <= sessions.end; chunkStart += 2) {
@@ -164,7 +205,9 @@ export default {
 						location,
 						start: chunkStart,
 						end: chunkEnd,
-						theme: HOME_COURSE_THEMES[index % HOME_COURSE_THEMES.length]
+						theme: HOME_COURSE_THEMES[index % HOME_COURSE_THEMES.length],
+						weekRange,
+						isCurrentWeek: isWeekInRange(weekRange, this.currentWeek)
 					})
 				}
 
