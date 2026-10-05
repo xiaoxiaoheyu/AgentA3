@@ -1,5 +1,5 @@
 <template>
-  <view class="ancient-tabbar">
+  <view class="ancient-tabbar" :class="{ 'ancient-tabbar--landscape-home': landscapeHome }">
     <view class="ancient-tabbar__paper">
       <view class="ancient-tabbar__ridge ancient-tabbar__ridge--left"></view>
       <view class="ancient-tabbar__ridge ancient-tabbar__ridge--right"></view>
@@ -7,7 +7,7 @@
       <view class="ancient-tabbar__items">
         <view class="ancient-tab ancient-tab--side ancient-tab--home" @click="onTab('index')">
           <view class="ancient-tab__seal ancient-tab__seal--small">
-            <image src="/static/icons/ancient-home.svg" mode="aspectFit" />
+            <image :src="landscapeHome ? '/static/icons/qljs-painted-home.png' : '/static/icons/ancient-home.svg'" mode="aspectFit" />
           </view>
           <text class="ancient-tab__label" :class="{ active: current === 'index' }">首页</text>
           <view v-if="current === 'index'" class="ancient-tab__mark"></view>
@@ -16,7 +16,7 @@
         <view class="ancient-tab ancient-tab--main ancient-tab--map" @click="onTab('map')">
           <view class="ancient-tab__seal ancient-tab__seal--main">
             <view class="ancient-tab__halo"></view>
-            <image src="/static/icons/ancient-scroll.svg" mode="aspectFit" />
+            <image :src="landscapeHome ? '/static/icons/nav-campus-map-v2.png' : '/static/icons/ancient-scroll.svg'" mode="aspectFit" />
           </view>
           <text class="ancient-tab__label" :class="{ active: current === 'map' }">校园地图</text>
           <view v-if="current === 'map'" class="ancient-tab__mark"></view>
@@ -24,7 +24,7 @@
 
         <view class="ancient-tab ancient-tab--side ancient-tab--mine" @click="onTab('mine')">
           <view class="ancient-tab__seal ancient-tab__seal--small">
-            <image src="/static/icons/ancient-scholar.svg" mode="aspectFit" />
+            <image :src="landscapeHome ? '/static/icons/qljs-painted-mine.png' : '/static/icons/ancient-scholar.svg'" mode="aspectFit" />
           </view>
           <text class="ancient-tab__label" :class="{ active: current === 'mine' }">我的</text>
           <view v-if="current === 'mine'" class="ancient-tab__mark"></view>
@@ -41,6 +41,10 @@ export default {
     current: {
       type: String,
       default: 'index'
+    },
+    landscapeHome: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -433,6 +437,79 @@ export default {
   z-index: 1;
 }
 
+/* 首页专用千里江山图图标风格；其他页面继续使用原导航样式 */
+.ancient-tabbar--landscape-home .ancient-tabbar__paper {
+  background:
+    linear-gradient(100deg, rgba(247, 240, 214, .98), rgba(227, 239, 225, .98) 48%, rgba(238, 229, 195, .98)) !important;
+  border-top-color: #b9934e !important;
+  box-shadow: 0 -8rpx 22rpx rgba(35, 92, 85, .13) !important;
+}
+
+.ancient-tabbar--landscape-home .ancient-tabbar__paper::before {
+  display: block !important;
+  top: 12rpx;
+  left: -28rpx;
+  width: 250rpx;
+  height: 62rpx;
+  border-top-color: rgba(38, 111, 109, .28);
+}
+
+.ancient-tabbar--landscape-home .ancient-tabbar__paper::after {
+  display: block !important;
+  top: 14rpx;
+  right: -30rpx;
+  width: 250rpx;
+  height: 62rpx;
+  border-top-color: rgba(190, 146, 70, .3);
+}
+
+.ancient-tabbar--landscape-home .ancient-tab__seal,
+.ancient-tabbar--landscape-home .ancient-tab__seal--small,
+.ancient-tabbar--landscape-home .ancient-tab__seal--main {
+  width: 76rpx !important;
+  height: 76rpx !important;
+  margin: 0 0 2rpx !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  filter: none !important;
+  overflow: visible !important;
+}
+
+.ancient-tabbar--landscape-home .ancient-tab__seal::before,
+.ancient-tabbar--landscape-home .ancient-tab__seal::after {
+  display: none !important;
+}
+
+.ancient-tabbar--landscape-home .ancient-tab__seal image,
+.ancient-tabbar--landscape-home .ancient-tab__seal--small image,
+.ancient-tabbar--landscape-home .ancient-tab__seal--main image {
+  width: 76rpx !important;
+  height: 76rpx !important;
+  opacity: .82 !important;
+}
+
+.ancient-tabbar--landscape-home .ancient-tab__label {
+  color: #607871 !important;
+  font-family: 'STKaiti', 'KaiTi', 'FZKai-Z03', serif !important;
+  font-size: 25rpx !important;
+  font-weight: 400 !important;
+  letter-spacing: 4rpx !important;
+}
+
+.ancient-tabbar--landscape-home .ancient-tab__label.active {
+  color: #155d62 !important;
+  font-size: 29rpx !important;
+  font-weight: 700 !important;
+  transform: skewX(-5deg);
+  text-shadow: 0 2rpx 0 rgba(188, 146, 75, .2);
+}
+
+.ancient-tabbar--landscape-home .ancient-tab--home image {
+  opacity: 1 !important;
+  filter: drop-shadow(0 5rpx 5rpx rgba(30, 101, 96, .15));
+}
+
 .ancient-tab--map .ancient-tab__seal--main {
   width: 78rpx !important;
   height: 58rpx !important;
@@ -511,5 +588,79 @@ export default {
   height: 60rpx !important;
   opacity: 1 !important;
   z-index: 1;
+}
+
+/* 最终归一化：清除旧器物外框，完整显示新山水 SVG */
+.ancient-tabbar--landscape-home .ancient-tab--home .ancient-tab__seal,
+.ancient-tabbar--landscape-home .ancient-tab--map .ancient-tab__seal,
+.ancient-tabbar--landscape-home .ancient-tab--mine .ancient-tab__seal {
+  width: 76rpx !important;
+  height: 76rpx !important;
+  margin: 0 0 2rpx !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.ancient-tabbar--landscape-home .ancient-tab--home .ancient-tab__seal::before,
+.ancient-tabbar--landscape-home .ancient-tab--home .ancient-tab__seal::after,
+.ancient-tabbar--landscape-home .ancient-tab--map .ancient-tab__seal::before,
+.ancient-tabbar--landscape-home .ancient-tab--map .ancient-tab__seal::after,
+.ancient-tabbar--landscape-home .ancient-tab--mine .ancient-tab__seal::before,
+.ancient-tabbar--landscape-home .ancient-tab--mine .ancient-tab__seal::after {
+  display: none !important;
+}
+
+.ancient-tabbar--landscape-home .ancient-tab--home .ancient-tab__seal image,
+.ancient-tabbar--landscape-home .ancient-tab--map .ancient-tab__seal image,
+.ancient-tabbar--landscape-home .ancient-tab--mine .ancient-tab__seal image {
+  display: block !important;
+  width: 76rpx !important;
+  height: 76rpx !important;
+  opacity: .84 !important;
+}
+
+.ancient-tabbar--landscape-home .ancient-tab--home .ancient-tab__seal image {
+  opacity: 1 !important;
+  filter: drop-shadow(0 5rpx 5rpx rgba(30, 101, 96, .15));
+}
+
+/* 首页三枚位图导航以主体物区分功能，不再重复使用山水圆章。 */
+.ancient-tabbar--landscape-home .ancient-tab--home .ancient-tab__seal,
+.ancient-tabbar--landscape-home .ancient-tab--map .ancient-tab__seal,
+.ancient-tabbar--landscape-home .ancient-tab--mine .ancient-tab__seal {
+  width: 94rpx !important;
+  height: 84rpx !important;
+  padding: 0 !important;
+  box-sizing: border-box;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.ancient-tabbar--landscape-home .ancient-tab--home .ancient-tab__seal {
+  width: 102rpx !important;
+  height: 90rpx !important;
+}
+
+.ancient-tabbar--landscape-home .ancient-tab--home .ancient-tab__seal image,
+.ancient-tabbar--landscape-home .ancient-tab--map .ancient-tab__seal image,
+.ancient-tabbar--landscape-home .ancient-tab--mine .ancient-tab__seal image {
+  width: 88rpx !important;
+  height: 80rpx !important;
+  opacity: .9 !important;
+  filter: drop-shadow(0 5rpx 5rpx rgba(29, 79, 73, .16)) !important;
+}
+
+.ancient-tabbar--landscape-home .ancient-tab--home .ancient-tab__seal image {
+  width: 98rpx !important;
+  height: 88rpx !important;
+  opacity: 1 !important;
+  filter:
+    drop-shadow(1rpx 0 0 rgba(190, 143, 55, .82))
+    drop-shadow(-1rpx 0 0 rgba(190, 143, 55, .82))
+    drop-shadow(0 7rpx 7rpx rgba(25, 83, 76, .2)) !important;
 }
 </style>

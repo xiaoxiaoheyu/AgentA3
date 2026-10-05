@@ -262,7 +262,7 @@
 
 		<ai-float-assistant />
 
-		<app-main-tab-bar current="index" />
+		<app-main-tab-bar current="index" landscape-home />
 	</view>
 </template>
 
